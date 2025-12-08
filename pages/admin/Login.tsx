@@ -1,27 +1,26 @@
-
-import React, { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
-import { AuthContext } from '../../App';
-import Input from '../../components/ui/Input';
-import Button from '../../components/ui/Button';
-import { Briefcase } from 'lucide-react';
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import { AuthContext } from "../../App";
+import Input from "../../components/ui/Input";
+import Button from "../../components/ui/Button";
+import { Briefcase } from "lucide-react";
 
 const AdminLogin: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Mock authentication
-    if (email === 'admin@mtmkay.com' && password === 'password') {
+    if (email === "admin@mtmkay.com" && password === "password") {
       login();
-      navigate('/admin/dashboard');
+      navigate("/admin/dashboard");
     } else {
-      setError('Invalid email or password');
+      setError("Invalid email or password");
     }
   };
 
@@ -58,7 +57,9 @@ const AdminLogin: React.FC = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
             {error && <p className="text-sm text-red-600">{error}</p>}
-            <p className="text-xs text-center text-gray-500">Demo: admin@mtmkay.com / password</p>
+            <p className="text-xs text-center text-gray-500">
+              Demo: admin@mtmkay.com / password
+            </p>
             <Button type="submit" className="w-full" size="lg">
               Sign In
             </Button>

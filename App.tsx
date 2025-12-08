@@ -1,29 +1,28 @@
-
-import React, { useState, useEffect } from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
-import MainLayout from './layouts/MainLayout';
-import AdminLayout from './layouts/AdminLayout';
+import React, { useState, useEffect } from "react";
+import { HashRouter, Routes, Route } from "react-router-dom";
+import MainLayout from "./layouts/MainLayout";
+import AdminLayout from "./layouts/AdminLayout";
 
 // Public Pages
-import Home from './pages/public/Home';
-import About from './pages/public/About';
-import Services from './pages/public/Services';
-import Trainings from './pages/public/Trainings';
-import TrainingDetail from './pages/public/TrainingDetail';
-import CourseRegistration from './pages/public/CourseRegistration';
-import Blog from './pages/public/Blog';
-import BlogPostDetail from './pages/public/BlogPostDetail';
-import Contact from './pages/public/Contact';
-import NotFound from './pages/public/NotFound';
+import Home from "./pages/public/Home";
+import About from "./pages/public/About";
+import Services from "./pages/public/Services";
+import Trainings from "./pages/public/Trainings";
+import TrainingDetail from "./pages/public/TrainingDetail";
+import CourseRegistration from "./pages/public/CourseRegistration";
+import Blog from "./pages/public/Blog";
+import BlogPostDetail from "./pages/public/BlogPostDetail";
+import Contact from "./pages/public/Contact";
+import NotFound from "./pages/public/NotFound";
 
 // Admin Pages
-import AdminLogin from './pages/admin/Login';
-import Dashboard from './pages/admin/Dashboard';
-import ManageTrainings from './pages/admin/ManageTrainings';
-import ManageBlog from './pages/admin/ManageBlog';
-import ManageRegistrations from './pages/admin/ManageRegistrations';
-import ViewPayments from './pages/admin/ViewPayments';
-import Preloader from './components/shared/Preloader';
+import AdminLogin from "./pages/admin/Login";
+import Dashboard from "./pages/admin/Dashboard";
+import ManageTrainings from "./pages/admin/ManageTrainings";
+import ManageBlog from "./pages/admin/ManageBlog";
+import ManageRegistrations from "./pages/admin/ManageRegistrations";
+import ViewPayments from "./pages/admin/ViewPayments";
+import Preloader from "./components/shared/Preloader";
 
 // A mock auth context
 export const AuthContext = React.createContext({
@@ -48,7 +47,7 @@ const App: React.FC = () => {
   if (loading) {
     return <Preloader />;
   }
-  
+
   return (
     <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
       <HashRouter>
@@ -65,7 +64,7 @@ const App: React.FC = () => {
             <Route path="blog/:id" element={<BlogPostDetail />} />
             <Route path="contact" element={<Contact />} />
           </Route>
-          
+
           {/* Admin Routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
           {isAuthenticated ? (
