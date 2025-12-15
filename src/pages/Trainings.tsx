@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import { trainingsData } from "../../data/trainings";
-import Card from "../../components/ui/Card";
-import Input from "../../components/ui/Input";
+import { trainingsData } from "../data/trainings";
+import Card from "../components/ui/Card";
+import Input from "../components/ui/Input";
 import { ArrowRight, Search } from "lucide-react";
 
 const Trainings: React.FC = () => {

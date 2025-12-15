@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Menu, UserCircle, LogOut } from "lucide-react";
-import { AuthContext } from "../../App";
+import { AuthContext } from "../../../App";
 import { useNavigate } from "react-router-dom";
 
 interface AdminHeaderProps {

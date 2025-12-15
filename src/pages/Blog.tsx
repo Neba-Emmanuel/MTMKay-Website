@@ -1,8 +1,8 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import { blogPostsData } from "../../data/blog";
-import Card from "../../components/ui/Card";
+import { blogPostsData } from "../data/blog";
+import Card from "../components/ui/Card";
 import { ArrowRight } from "lucide-react";
 
 const Blog: React.FC = () => {

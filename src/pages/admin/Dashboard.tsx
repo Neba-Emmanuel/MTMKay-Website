@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { BookOpen, PenSquare, Users, CreditCard } from "lucide-react";
 import Card from "../../components/ui/Card";

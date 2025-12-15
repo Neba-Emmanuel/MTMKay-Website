@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { trainingsData } from "../../data/trainings";
-import Input from "../../components/ui/Input";
-import Button from "../../components/ui/Button";
-import Tabs from "../../components/ui/Tabs";
+import { trainingsData } from "../data/trainings";
+import Input from "../components/ui/Input";
+import Button from "../components/ui/Button";
+import Tabs from "../components/ui/Tabs";
 import { CheckCircle } from "lucide-react";
 
 const CourseRegistration: React.FC = () => {

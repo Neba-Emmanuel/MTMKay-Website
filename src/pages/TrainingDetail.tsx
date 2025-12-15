@@ -1,10 +1,10 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { trainingsData } from "../../data/trainings";
+import { trainingsData } from "../data/trainings";
 import NotFound from "./NotFound";
-import Button from "../../components/ui/Button";
-import Accordion from "../../components/ui/Accordion";
+import Button from "../components/ui/Button";
+import Accordion from "../components/ui/Accordion";
 import {
   Target,
   UserCheck,

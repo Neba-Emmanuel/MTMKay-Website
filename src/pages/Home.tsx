@@ -2,12 +2,12 @@ import React from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import Button from "../../components/ui/Button";
-import Card from "../../components/ui/Card";
-import { trainingsData } from "../../data/trainings";
-import { blogPostsData } from "../../data/blog";
+import Button from "../components/ui/Button";
+import Card from "../components/ui/Card";
+import { trainingsData } from "../data/trainings";
+import { blogPostsData } from "../data/blog";
 import { ArrowRight, Star, Users, Briefcase, BarChart } from "lucide-react";
-import { servicesData } from "../../data/services";
+import { servicesData } from "../data/services";
 
 const Home: React.FC = () => {
   const featuredCourses = trainingsData.slice(0, 3);

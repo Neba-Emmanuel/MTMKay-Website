@@ -1,9 +1,9 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
-import { servicesData } from "../../data/services";
-import Card from "../../components/ui/Card";
-import Button from "../../components/ui/Button";
+import { servicesData } from "../data/services";
+import Card from "../components/ui/Card";
+import Button from "../components/ui/Button";
 
 const Services: React.FC = () => {
   const containerVariants = {

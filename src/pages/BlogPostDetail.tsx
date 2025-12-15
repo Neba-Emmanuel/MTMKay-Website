@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { blogPostsData } from "../../data/blog";
+import { blogPostsData } from "../data/blog";
 import NotFound from "./NotFound";
 import { User, Calendar } from "lucide-react";
 

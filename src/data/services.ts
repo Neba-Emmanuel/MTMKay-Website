@@ -1,4 +1,4 @@
-import { Service } from "../types";
+import { Service } from "../../types";
 import { Briefcase, Cloud, Shield, Code } from "lucide-react";
 
 export const servicesData: Service[] = [

@@ -1,52 +1,49 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import Card from "../../components/ui/Card";
-import { Registration } from "../../types";
+import { Payment } from "../../../types";
 
-const mockRegistrations: Registration[] = [
+const mockPayments: Payment[] = [
   {
-    id: "reg1",
-    name: "Alice Johnson",
-    email: "alice@example.com",
-    phone: "111-222-3333",
-    trainingId: "web-development-bootcamp",
-    trainingTitle: "Full-Stack Web Development Bootcamp",
-    slotId: "slot1",
-    registrationDate: "2024-07-20",
-    status: "Confirmed",
+    id: "pay1",
+    registrationId: "reg1",
+    amount: 500,
+    currency: "USD",
+    method: "MTN Mobile Money",
+    transactionRef: "MTM-REF-12345",
+    paymentDate: "2024-07-20",
+    status: "Success",
   },
   {
-    id: "reg2",
-    name: "Bob Williams",
-    email: "bob@example.com",
-    phone: "444-555-6666",
-    trainingId: "data-science-mastery",
-    trainingTitle: "Data Science & Machine Learning Mastery",
-    slotId: "dsslot1",
-    registrationDate: "2024-07-19",
+    id: "pay2",
+    registrationId: "reg2",
+    amount: 800,
+    currency: "USD",
+    method: "Orange Money",
+    transactionRef: "MTM-REF-67890",
+    paymentDate: "2024-07-19",
     status: "Pending",
   },
   {
-    id: "reg3",
-    name: "Charlie Brown",
-    email: "charlie@example.com",
-    phone: "777-888-9999",
-    trainingId: "web-development-bootcamp",
-    trainingTitle: "Full-Stack Web Development Bootcamp",
-    slotId: "slot2",
-    registrationDate: "2024-07-18",
-    status: "Cancelled",
+    id: "pay3",
+    registrationId: "reg4",
+    amount: 500,
+    currency: "USD",
+    method: "MTN Mobile Money",
+    transactionRef: "MTM-REF-11223",
+    paymentDate: "2024-07-18",
+    status: "Failed",
   },
 ];
 
-const ManageRegistrations: React.FC = () => {
-  const getStatusBadge = (status: Registration["status"]) => {
+const ViewPayments: React.FC = () => {
+  const getStatusBadge = (status: Payment["status"]) => {
     switch (status) {
-      case "Confirmed":
+      case "Success":
         return "bg-green-100 text-green-800";
       case "Pending":
         return "bg-yellow-100 text-yellow-800";
-      case "Cancelled":
+      case "Failed":
         return "bg-red-100 text-red-800";
       default:
         return "bg-gray-100 text-gray-800";
@@ -56,22 +53,23 @@ const ManageRegistrations: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Manage Registrations - MTMKay Admin</title>
+        <title>View Payments - MTMKay Admin</title>
       </Helmet>
       <div>
-        <h1 className="text-3xl font-bold text-gray-800 mb-6">
-          Manage Registrations
-        </h1>
+        <h1 className="text-3xl font-bold text-gray-800 mb-6">View Payments</h1>
         <Card>
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    Name
+                    Transaction Ref
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    Training
+                    Amount
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    Method
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                     Date
@@ -83,27 +81,27 @@ const ManageRegistrations: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {mockRegistrations.map((reg) => (
-                  <tr key={reg.id}>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">
-                        {reg.name}
-                      </div>
-                      <div className="text-sm text-gray-500">{reg.email}</div>
+                {mockPayments.map((payment) => (
+                  <tr key={payment.id}>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-600">
+                      {payment.transactionRef}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      {payment.amount} {payment.currency}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {reg.trainingTitle}
+                      {payment.method}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {reg.registrationDate}
+                      {payment.paymentDate}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
                         className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusBadge(
-                          reg.status
+                          payment.status
                         )}`}
                       >
-                        {reg.status}
+                        {payment.status}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -111,7 +109,7 @@ const ManageRegistrations: React.FC = () => {
                         href="#"
                         className="text-primary hover:text-primary-dark"
                       >
-                        View
+                        View Receipt
                       </a>
                     </td>
                   </tr>
@@ -125,4 +123,4 @@ const ManageRegistrations: React.FC = () => {
   );
 };
 
-export default ManageRegistrations;
+export default ViewPayments;

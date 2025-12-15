@@ -1,4 +1,4 @@
-import { Training } from "../types";
+import { Training } from "../../types";
 
 export const trainingsData: Training[] = [
   {
