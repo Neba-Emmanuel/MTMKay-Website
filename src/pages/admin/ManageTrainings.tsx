@@ -8,7 +8,7 @@ import sweetAlert from "@/src/utils/alerts";
 import { showConfirmationDialog } from "@/src/utils/alerts";
 import TrainingForm, {
   TrainingFormData,
-} from "../../components/admin/trainingForm";
+} from "../../components/admin/TrainingForm";
 
 const ManageTrainings: React.FC = () => {
   const { request, data: trainings, loading, error } = useApiRequest();
