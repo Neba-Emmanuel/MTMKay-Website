@@ -15,6 +15,7 @@ const ManageTrainings: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
   const [editingTraining, setEditingTraining] = useState<any>(null);
   const [formLoading, setFormLoading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   useEffect(() => {
     fetchTrainings();
@@ -39,7 +40,16 @@ const ManageTrainings: React.FC = () => {
 
   const handleFormSubmit = async (formData: TrainingFormData) => {
     setFormLoading(true);
+
     try {
+      const payload = new FormData();
+
+      Object.entries(formData).forEach(([key, value]) => {
+        if (value !== null && value !== undefined) {
+          payload.append(key, value as any);
+        }
+      });
+
       const url = editingTraining
         ? `/trainings/${editingTraining.id}`
         : "/trainings";
@@ -49,7 +59,15 @@ const ManageTrainings: React.FC = () => {
       await request({
         method,
         url,
-        data: formData,
+        data: payload,
+        headers: { "Content-Type": "multipart/form-data" },
+        onUploadProgress: (progressEvent) => {
+          if (!progressEvent.total) return;
+          const percent = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          setUploadProgress(percent);
+        },
       });
 
       sweetAlert({
@@ -60,15 +78,12 @@ const ManageTrainings: React.FC = () => {
       });
 
       setShowForm(false);
-      setEditingTraining(null);
       fetchTrainings();
-    } catch (err: any) {
-      sweetAlert({
-        icon: "error",
-        title: "Operation failed",
-      });
+    } catch {
+      sweetAlert({ icon: "error", title: "Operation failed" });
     } finally {
       setFormLoading(false);
+      setUploadProgress(0);
     }
   };
 
@@ -188,6 +203,7 @@ const ManageTrainings: React.FC = () => {
               setEditingTraining(null);
             }}
             loading={formLoading}
+            uploadProgress={uploadProgress}
           />
         )}
       </div>

@@ -8,6 +8,7 @@ interface TrainingFormProps {
   onSubmit: (data: TrainingFormData) => Promise<void>;
   onCancel: () => void;
   loading?: boolean;
+  uploadProgress?: number;
 }
 
 export interface TrainingFormData {
@@ -19,6 +20,7 @@ export interface TrainingFormData {
   resources: string;
   slots: number;
   price: number;
+  image?: File | null;
 }
 
 const TrainingForm: React.FC<TrainingFormProps> = ({
@@ -27,6 +29,13 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
   onCancel,
   loading = false,
 }) => {
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
+  const [isDragging, setIsDragging] = useState(false);
+
+  const [imagePreview, setImagePreview] = useState<string | null>(
+    training?.image || null
+  );
+
   const [formData, setFormData] = useState<TrainingFormData>({
     title: training?.title || "",
     summary: training?.summary || "",
@@ -36,6 +45,7 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
     resources: training?.resources || "",
     slots: training?.slots || 20,
     price: training?.price || 0,
+    image: null,
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -75,6 +85,42 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
+  };
+
+  const handleFile = (file: File) => {
+    if (!file.type.startsWith("image/")) {
+      alert("Please select an image file");
+      return;
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      image: file,
+    }));
+
+    setImagePreview(URL.createObjectURL(file));
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+
+    const file = e.dataTransfer.files?.[0];
+    if (file) handleFile(file);
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragging(false);
+  };
+
+  const removeImage = () => {
+    setFormData((prev) => ({ ...prev, image: null }));
+    setImagePreview(null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -278,6 +324,87 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
                       />
                       <p className="mt-2 text-xs text-gray-500">
                         Keep it concise - 2-3 sentences maximum
+                      </p>
+                    </div>
+
+                    {/* Training Image */}
+                    <div className="lg:col-span-2">
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Training Cover Image
+                      </label>
+
+                      <div
+                        onDrop={handleDrop}
+                        onDragOver={handleDragOver}
+                        onDragLeave={handleDragLeave}
+                        className={`relative border-2 border-dashed rounded-lg p-6 text-center transition-all
+      ${isDragging ? "border-primary bg-primary/5" : "border-gray-300"}
+    `}
+                      >
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleFile}
+                          className="absolute inset-0 opacity-0 cursor-pointer"
+                        />
+
+                        {!imagePreview ? (
+                          <p className="text-gray-500 text-sm">
+                            Drag & drop an image here, or click to select
+                          </p>
+                        ) : (
+                          <div className="space-y-4">
+                            <img
+                              src={imagePreview}
+                              alt="Preview"
+                              className="mx-auto h-40 rounded-lg object-cover border"
+                            />
+
+                            <div className="flex justify-center gap-3">
+                              <Button
+                                type="button"
+                                variant="outline"
+                                onClick={() =>
+                                  document
+                                    .querySelector<HTMLInputElement>(
+                                      'input[type="file"]'
+                                    )
+                                    ?.click()
+                                }
+                              >
+                                Replace Image
+                              </Button>
+
+                              <Button
+                                type="button"
+                                variant="outline"
+                                className="text-red-600 border-red-300"
+                                onClick={removeImage}
+                              >
+                                Remove
+                              </Button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Upload Progress */}
+                      {uploadProgress > 0 && uploadProgress < 100 && (
+                        <div className="mt-3">
+                          <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div
+                              className="h-full bg-primary transition-all"
+                              style={{ width: `${uploadProgress}%` }}
+                            />
+                          </div>
+                          <p className="text-xs text-gray-500 mt-1">
+                            Uploading… {uploadProgress}%
+                          </p>
+                        </div>
+                      )}
+
+                      <p className="mt-2 text-xs text-gray-500">
+                        JPG / PNG • Recommended 1200×600px
                       </p>
                     </div>
                   </div>
