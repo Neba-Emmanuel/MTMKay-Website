@@ -1,13 +1,128 @@
-import React from "react";
+import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
-import { Phone, Mail, MapPin } from "lucide-react";
+import {
+  Phone,
+  Mail,
+  MapPin,
+  Loader2,
+  CheckCircle,
+  AlertCircle,
+} from "lucide-react";
+import sweetAlert from "../utils/alerts";
+import { useApiRequest } from "../hooks/useApiRequest";
 
 const Contact: React.FC = () => {
-  const handleSubmit = (e: React.FormEvent) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+
+  const { request } = useApiRequest();
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+    // Clear error when user starts typing
+    if (error) setError(null);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Thank you for your message. We will get back to you shortly!");
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await request({
+        method: "POST",
+        url: "/contact/form",
+        data: formData,
+      });
+
+      // Check if response already has a data property
+      if (response && typeof response === "object" && response.data) {
+        // Handle if hook already parsed JSON
+        const data = response.data;
+
+        if (response.success === false) {
+          throw new Error(data.message || "Failed to send message");
+        }
+
+        sweetAlert({
+          icon: "success",
+          title: data.message || "Message sent successfully!",
+        });
+
+        setSuccess(true);
+        setFormData({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+        });
+        setTimeout(() => setSuccess(false), 5000);
+        return;
+      }
+
+      // If it's a standard Fetch Response
+      if (response && typeof response.json === "function") {
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Failed to send message");
+        }
+
+        sweetAlert({
+          icon: "success",
+          title: data.message || "Message sent successfully!",
+        });
+
+        setSuccess(true);
+        setFormData({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+        });
+        setTimeout(() => setSuccess(false), 5000);
+      } else {
+        // If response is already parsed data
+        const data = response;
+        if (data.success === false) {
+          throw new Error(data.message || "Failed to send message");
+        }
+
+        sweetAlert({
+          icon: "success",
+          title: data.message || "Message sent successfully!",
+        });
+
+        setSuccess(true);
+        setFormData({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+        });
+        setTimeout(() => setSuccess(false), 5000);
+      }
+    } catch (err) {
+      console.error("Error in handleSubmit:", err);
+      setError(err instanceof Error ? err.message : "An error occurred");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -36,11 +151,40 @@ const Contact: React.FC = () => {
             {/* Contact Form */}
             <div className="bg-white p-8 rounded-lg shadow-lg">
               <h2 className="text-2xl font-bold mb-6">Send Us a Message</h2>
+
+              {success && (
+                <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center">
+                  <CheckCircle className="text-green-500 mr-3" size={24} />
+                  <div>
+                    <p className="text-green-800 font-medium">
+                      Message sent successfully!
+                    </p>
+                    <p className="text-green-600 text-sm">
+                      We'll get back to you within 24-48 hours.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {error && (
+                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center">
+                  <AlertCircle className="text-red-500 mr-3" size={24} />
+                  <div>
+                    <p className="text-red-800 font-medium">
+                      Error sending message
+                    </p>
+                    <p className="text-red-600 text-sm">{error}</p>
+                  </div>
+                </div>
+              )}
+
               <form onSubmit={handleSubmit} className="space-y-6">
                 <Input
                   id="name"
                   label="Full Name"
                   placeholder="John Doe"
+                  value={formData.name}
+                  onChange={handleChange}
                   required
                 />
                 <Input
@@ -48,12 +192,16 @@ const Contact: React.FC = () => {
                   label="Email Address"
                   type="email"
                   placeholder="you@example.com"
+                  value={formData.email}
+                  onChange={handleChange}
                   required
                 />
                 <Input
                   id="subject"
                   label="Subject"
                   placeholder="Inquiry about Web Development Course"
+                  value={formData.subject}
+                  onChange={handleChange}
                   required
                 />
                 <div>
@@ -65,13 +213,27 @@ const Contact: React.FC = () => {
                   </label>
                   <textarea
                     id="message"
+                    value={formData.message}
+                    onChange={handleChange}
                     rows={5}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
                     required
                   ></textarea>
                 </div>
-                <Button type="submit" className="w-full" size="lg">
-                  Send Message
+                <Button
+                  type="submit"
+                  className="w-full"
+                  size="lg"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    "Send Message"
+                  )}
                 </Button>
               </form>
             </div>

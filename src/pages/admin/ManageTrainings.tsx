@@ -9,6 +9,7 @@ import { showConfirmationDialog } from "@/src/utils/alerts";
 import TrainingForm, {
   TrainingFormData,
 } from "../../components/admin/TrainingForm";
+import { mapTrainingPayload } from "../../utils/mapTrainingPayload";
 
 const ManageTrainings: React.FC = () => {
   const { request, data: trainings, loading, error } = useApiRequest();
@@ -44,30 +45,22 @@ const ManageTrainings: React.FC = () => {
     try {
       const payload = new FormData();
 
-      Object.entries(formData).forEach(([key, value]) => {
+      const mapped = mapTrainingPayload(formData, {
+        existingSlug: editingTraining?.slug,
+      });
+
+      Object.entries(mapped).forEach(([key, value]) => {
         if (value !== null && value !== undefined) {
-          payload.append(key, value as any);
+          payload.append(key, String(value));
         }
       });
 
-      const url = editingTraining
-        ? `/trainings/${editingTraining.id}`
-        : "/trainings";
-
-      const method = editingTraining ? "PUT" : "POST";
-
       await request({
-        method,
-        url,
+        method: editingTraining ? "PUT" : "POST",
+        url: editingTraining
+          ? `/trainings/${editingTraining.id}`
+          : "/trainings",
         data: payload,
-        headers: { "Content-Type": "multipart/form-data" },
-        onUploadProgress: (progressEvent) => {
-          if (!progressEvent.total) return;
-          const percent = Math.round(
-            (progressEvent.loaded * 100) / progressEvent.total
-          );
-          setUploadProgress(percent);
-        },
       });
 
       sweetAlert({
@@ -79,11 +72,10 @@ const ManageTrainings: React.FC = () => {
 
       setShowForm(false);
       fetchTrainings();
-    } catch {
+    } catch (err) {
       sweetAlert({ icon: "error", title: "Operation failed" });
     } finally {
       setFormLoading(false);
-      setUploadProgress(0);
     }
   };
 

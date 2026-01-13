@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainLayout from "./src/layouts/MainLayout";
 import AdminLayout from "./src/layouts/AdminLayout";
 
@@ -50,7 +50,7 @@ const App: React.FC = () => {
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
-      <HashRouter>
+      <BrowserRouter>
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<MainLayout />}>
@@ -69,6 +69,7 @@ const App: React.FC = () => {
           <Route path="/admin/login" element={<AdminLogin />} />
           {isAuthenticated ? (
             <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<Dashboard />} />
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="trainings" element={<ManageTrainings />} />
               <Route path="blog" element={<ManageBlog />} />
@@ -82,7 +83,7 @@ const App: React.FC = () => {
           {/* Not Found Route */}
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </HashRouter>
+      </BrowserRouter>
     </AuthContext.Provider>
   );
 };

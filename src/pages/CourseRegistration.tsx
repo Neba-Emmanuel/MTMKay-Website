@@ -6,6 +6,9 @@ import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
 import Tabs from "../components/ui/Tabs";
 import { CheckCircle } from "lucide-react";
+import { useApiRequest } from "../hooks/useApiRequest";
+import sweetAlert from "../utils/alerts";
+import { s } from "framer-motion/client";
 
 const CourseRegistration: React.FC = () => {
   const location = useLocation();
@@ -14,24 +17,72 @@ const CourseRegistration: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const { request } = useApiRequest();
   const [trainingId, setTrainingId] = useState(preselectedTrainingId || "");
   const [slotId, setSlotId] = useState("");
   const [step, setStep] = useState(1); // 1: Form, 2: Payment, 3: Confirmation
+  const [registrationId, setRegistrationId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const selectedTraining = trainingsData.find((t) => t.id === trainingId);
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (name && email && phone && trainingId && slotId) {
-      setStep(2);
-    } else {
+
+    if (!name || !email || !phone || !trainingId || !slotId) {
       alert("Please fill all fields");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const res = await request({
+        method: "POST",
+        url: "/registrations",
+        data: { email, name, phone, trainingId, slotId },
+      });
+
+      const data = await res.json();
+
+      setRegistrationId(data.registrationId);
+      setStep(2);
+    } catch (err) {
+      sweetAlert({
+        icon: "error",
+        title: "Registration failed. Please try again.",
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handlePaymentConfirm = () => {
-    // In a real app, this would involve API calls to a payment gateway
-    setStep(3);
+  const handlePaymentConfirm = async () => {
+    if (!registrationId) return;
+
+    try {
+      setLoading(true);
+
+      const res = await request({
+        method: "POST",
+        url: "/payments/initiate",
+        data: { email, registrationId, amount: 500 },
+      });
+
+      const data = await res.json();
+
+      // Redirect to Fapshi payment page
+      if (data.link) {
+        window.location.href = data.link;
+      }
+    } catch (err) {
+      sweetAlert({
+        icon: "error",
+        title: "Payment initiation failed. Please try again.",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const PaymentUI = () => (
@@ -40,7 +91,7 @@ const CourseRegistration: React.FC = () => {
       <div className="bg-gray-100 p-6 rounded-lg mb-6">
         <p className="text-gray-600">Training:</p>
         <p className="font-bold text-lg">{selectedTraining?.title}</p>
-        <p className="text-3xl font-bold text-primary mt-4">Amount: $500</p>
+        <p className="text-3xl font-bold text-primary mt-4">Amount: XAF{500}</p>
       </div>
       <Tabs
         tabs={[
@@ -80,8 +131,13 @@ const CourseRegistration: React.FC = () => {
         Transaction Reference:{" "}
         <span className="font-mono bg-gray-200 p-1 rounded">MTM-REF-12345</span>
       </p>
-      <Button onClick={handlePaymentConfirm} className="w-full mt-4" size="lg">
-        Confirm Payment
+      <Button
+        onClick={handlePaymentConfirm}
+        disabled={loading}
+        className="w-full mt-4"
+        size="lg"
+      >
+        {loading ? "Redirecting..." : "Pay Now"}
       </Button>
     </div>
   );
@@ -185,8 +241,13 @@ const CourseRegistration: React.FC = () => {
                     </div>
                   )}
                 </div>
-                <Button type="submit" className="w-full mt-8" size="lg">
-                  Proceed to Payment
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full mt-8"
+                  size="lg"
+                >
+                  {loading ? "Processing..." : "Proceed to Payment"}
                 </Button>
               </form>
             )}
