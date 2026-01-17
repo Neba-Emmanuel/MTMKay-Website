@@ -26,6 +26,7 @@
   "devDependencies": {
     "@types/node": "^22.14.0",
     "@vitejs/plugin-react": "^5.0.0",
+    "baseline-browser-mapping": "^2.9.14",
     "tailwindcss": "^4.1.17",
     "typescript": "~5.8.2",
     "vite": "^6.4.1"
