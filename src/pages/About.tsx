@@ -287,7 +287,7 @@ const About: React.FC = () => {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {teamData.map((member) => (
-              <Card key={member.id} className="text-center p-6">
+              <Card key={member.id} className="text-center py-6">
                 <img
                   src={member.imageUrl}
                   alt={member.name}
@@ -295,7 +295,7 @@ const About: React.FC = () => {
                 />
                 <h3 className="text-xl font-bold">{member.name}</h3>
                 <p className="text-primary font-semibold mb-2">{member.role}</p>
-                <p className="text-gray-600 text-sm">{member.bio}</p>
+                {/* <p className="text-gray-600 text-sm">{member.bio}</p> */}
               </Card>
             ))}
           </div>
