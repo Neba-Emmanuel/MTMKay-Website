@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Button from "../../components/ui/Button";
 import Card from "../../components/ui/Card";
-import { Edit, Trash, PlusCircle } from "lucide-react";
+import { Edit, Trash, PlusCircle, Calendar, Users, Clock } from "lucide-react";
 import { useApiRequest } from "../../hooks/useApiRequest";
 import sweetAlert from "@/src/utils/alerts";
 import { showConfirmationDialog } from "@/src/utils/alerts";
@@ -12,7 +12,7 @@ import TrainingForm, {
 import { mapTrainingPayload } from "../../utils/mapTrainingPayload";
 
 const ManageTrainings: React.FC = () => {
-  const { request, data: training, loading, error } = useApiRequest();
+  const { request, data: trainings, loading, error } = useApiRequest();
   const [showForm, setShowForm] = useState(false);
   const [editingTraining, setEditingTraining] = useState<any>(null);
   const [formLoading, setFormLoading] = useState(false);
@@ -153,6 +153,24 @@ const ManageTrainings: React.FC = () => {
     }
   };
 
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  };
+
+  const calculateTotalSeats = (slots: any[]) => {
+    if (!slots || slots.length === 0) return 0;
+    return slots.reduce((total, slot) => total + slot.seats, 0);
+  };
+
+  const calculateAvailableSeats = (slots: any[]) => {
+    if (!slots || slots.length === 0) return 0;
+    return slots.reduce((total, slot) => total + slot.availableSeats, 0);
+  };
+
   return (
     <>
       <Helmet>
@@ -174,7 +192,7 @@ const ManageTrainings: React.FC = () => {
             <p className="p-4 text-red-600">Failed to load trainings</p>
           )}
 
-          {!loading && training && (
+          {!loading && trainings && trainings.length > 0 && (
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
@@ -186,62 +204,113 @@ const ManageTrainings: React.FC = () => {
                       Price
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      Slots
+                      Slots Info
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                       Created
                     </th>
-                    <th className="px-6 py-3" />
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      Actions
+                    </th>
                   </tr>
                 </thead>
 
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {training.map((training: any) => (
-                    <tr key={training.id}>
-                      <td className="px-6 py-4 text-sm font-medium text-gray-900">
-                        {training.title}
+                  {trainings.map((training: any) => (
+                    <tr key={training.id} className="hover:bg-gray-50">
+                      <td className="px-6 py-4">
+                        <div className="text-sm font-medium text-gray-900">
+                          {training.title}
+                        </div>
+                        {training.summary && (
+                          <div className="text-xs text-gray-500 mt-1 line-clamp-2">
+                            {training.summary}
+                          </div>
+                        )}
                       </td>
+
+                      <td className="px-6 py-4">
+                        <div className="text-sm font-bold text-gray-900">
+                          {training.price?.toLocaleString()} XAF
+                        </div>
+                      </td>
+
+                      <td className="px-6 py-4">
+                        {training.slots && training.slots.length > 0 ? (
+                          <div className="space-y-2">
+                            <div className="flex items-center text-sm text-gray-600">
+                              <Users size={14} className="mr-1 text-gray-400" />
+                              <span>
+                                {calculateAvailableSeats(training.slots)} /{" "}
+                                {calculateTotalSeats(training.slots)} seats
+                                available
+                              </span>
+                            </div>
+
+                            <div className="flex items-center text-sm text-gray-600">
+                              <Calendar
+                                size={14}
+                                className="mr-1 text-gray-400"
+                              />
+                              <span>{training.slots.length} slot(s)</span>
+                            </div>
+
+                            {/* Show first upcoming slot schedule */}
+                            {training.slots[0]?.schedule && (
+                              <div className="flex items-center text-sm text-gray-600">
+                                <Clock
+                                  size={14}
+                                  className="mr-1 text-gray-400"
+                                />
+                                <span className="truncate max-w-xs">
+                                  {training.slots[0].schedule}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        ) : (
+                          <div className="text-sm text-red-500 italic">
+                            No slots configured
+                          </div>
+                        )}
+                      </td>
+
                       <td className="px-6 py-4 text-sm text-gray-500">
-                        {training.price.toLocaleString()} XAF
+                        {formatDate(training.createdAt)}
                       </td>
-                      {training.slots.map((slot: any) => (
-                        <tr
-                          key={slot.id}
-                          className="px-6 py-1 text-sm text-gray-500 flex flex-col"
-                        >
-                          <td>{slot.schedule || "No schedule specified"}</td>
-                          {/* {slot.startDate
-                            ? new Date(slot.startDate).toLocaleDateString()
-                            : "No start date"}
-                          {" - "}
-                          {slot.endDate
-                            ? new Date(slot.endDate).toLocaleDateString()
-                            : "No end date"} */}
-                          <td>Seats: {slot.seats} - Available: </td>
-                          {slot.availableSeats}
-                        </tr>
-                      ))}
-                      <td className="px-6 py-4 text-sm text-gray-500">
-                        {new Date(training.createdAt).toLocaleDateString()}
-                      </td>
-                      <td className="px-6 py-4 text-right text-sm font-medium">
-                        <button
-                          onClick={() => handleEdit(training)}
-                          className="text-primary mr-4 hover:text-primary-dark"
-                        >
-                          <Edit size={18} />
-                        </button>
-                        <button
-                          onClick={() => handleDelete(training.id)}
-                          className="text-red-600 hover:text-red-800"
-                        >
-                          <Trash size={18} />
-                        </button>
+
+                      <td className="px-6 py-4">
+                        <div className="flex space-x-2">
+                          <button
+                            onClick={() => handleEdit(training)}
+                            className="inline-flex items-center p-2 text-sm font-medium text-primary bg-primary/10 rounded-lg hover:bg-primary/20 transition-colors"
+                            title="Edit training"
+                          >
+                            <Edit size={16} />
+                          </button>
+                          <button
+                            onClick={() => handleDelete(training.id)}
+                            className="inline-flex items-center p-2 text-sm font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
+                            title="Delete training"
+                          >
+                            <Trash size={16} />
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
+            </div>
+          )}
+
+          {!loading && (!trainings || trainings.length === 0) && (
+            <div className="text-center py-12">
+              <p className="text-gray-500 mb-4">No trainings found</p>
+              <Button onClick={handleAddNew}>
+                <PlusCircle size={18} className="mr-2" />
+                Create Your First Training
+              </Button>
             </div>
           )}
         </Card>

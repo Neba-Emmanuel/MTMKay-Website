@@ -15,6 +15,7 @@ import Blog from "./src/pages/Blog";
 import BlogPostDetail from "./src/pages/BlogPostDetail";
 import Contact from "./src/pages/Contact";
 import NotFound from "./src/pages/NotFound";
+import PaymentSuccess from "./src/pages/PaymentSuccess";
 
 // Admin Pages
 import AdminLogin from "./src/pages/admin/Login";
@@ -83,6 +84,8 @@ const App: React.FC = () => {
               <Route path="payments" element={<ViewPayments />} />
             </Route>
           </Route>
+          {/* Payment Success Route */}
+          <Route path="payment-success" element={<PaymentSuccess />} />
 
           {/* Not Found Route */}
           <Route path="*" element={<NotFound />} />
