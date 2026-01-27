@@ -82,7 +82,7 @@ const ManageTrainings: React.FC = () => {
   const handleDelete = async (id: number) => {
     const result = await showConfirmationDialog(
       "Delete Training?",
-      "This action cannot be undone"
+      "This action cannot be undone",
     );
 
     if (!result.isConfirmed) return;
@@ -156,7 +156,7 @@ const ManageTrainings: React.FC = () => {
                         {training.title}
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-500">
-                        ₦{training.price.toLocaleString()}
+                        {training.price.toLocaleString()} XAF
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-500">
                         {training.slots}

@@ -33,7 +33,7 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
   const [isDragging, setIsDragging] = useState(false);
 
   const [imagePreview, setImagePreview] = useState<string | null>(
-    training?.image || null
+    training?.image || null,
   );
 
   const [formData, setFormData] = useState<TrainingFormData>({
@@ -73,7 +73,7 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -367,7 +367,7 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
                                 onClick={() =>
                                   document
                                     .querySelector<HTMLInputElement>(
-                                      'input[type="file"]'
+                                      'input[type="file"]',
                                     )
                                     ?.click()
                                 }
@@ -561,8 +561,8 @@ Module 3: Advanced Topics
                         {formData.title || "Not provided"}
                       </p>
                       <p>
-                        <span className="font-medium">Price:</span> ₦
-                        {formData.price.toLocaleString()}
+                        <span className="font-medium">Price:</span>
+                        {formData.price.toLocaleString()} XAF
                       </p>
                       <p>
                         <span className="font-medium">Slots:</span>{" "}
@@ -583,7 +583,7 @@ Module 3: Advanced Topics
                     variant="outline"
                     onClick={() => {
                       const currentIndex = sections.findIndex(
-                        (s) => s.id === activeSection
+                        (s) => s.id === activeSection,
                       );
                       setActiveSection(sections[currentIndex - 1].id);
                     }}
@@ -608,7 +608,7 @@ Module 3: Advanced Topics
                     type="button"
                     onClick={() => {
                       const currentIndex = sections.findIndex(
-                        (s) => s.id === activeSection
+                        (s) => s.id === activeSection,
                       );
                       setActiveSection(sections[currentIndex + 1].id);
                     }}
