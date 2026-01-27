@@ -11,6 +11,15 @@ interface TrainingFormProps {
   uploadProgress?: number;
 }
 
+export interface TrainingSlot {
+  id: string;
+  startDate: string;
+  endDate: string;
+  schedule: string;
+  seats: number;
+  availableSeats: number;
+}
+
 export interface TrainingFormData {
   title: string;
   summary: string;
@@ -18,7 +27,7 @@ export interface TrainingFormData {
   eligibility: string;
   outline: string;
   resources: string;
-  slots: number;
+  slots: TrainingSlot[];
   price: number;
   image?: File | null;
 }
@@ -43,7 +52,16 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
     eligibility: training?.eligibility || "",
     outline: training?.outline || "",
     resources: training?.resources || "",
-    slots: training?.slots || 20,
+    slots: training?.slots || [
+      {
+        id: "1",
+        startDate: "",
+        endDate: "",
+        schedule: "",
+        seats: 20,
+        availableSeats: 20,
+      },
+    ],
     price: training?.price || 0,
     image: null,
   });
@@ -58,7 +76,7 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
       newErrors.title = "Title is required";
     }
 
-    if (formData.slots < 1) {
+    if (formData.slots.length < 1) {
       newErrors.slots = "Must have at least 1 slot";
     }
 
@@ -66,22 +84,57 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
       newErrors.price = "Price cannot be negative";
     }
 
+    if (formData.slots.length < 1) {
+      newErrors.slots = "Must have at least 1 slot";
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >,
-  ) => {
-    const { name, value } = e.target;
+  const addSlot = () => {
     setFormData((prev) => ({
       ...prev,
-      [name]:
-        name === "slots" || name === "price" ? parseFloat(value) || 0 : value,
+      slots: [
+        ...prev.slots,
+        {
+          id: crypto.randomUUID(),
+          startDate: "",
+          endDate: "",
+          schedule: "",
+          seats: 20,
+          availableSeats: 20,
+        },
+      ],
     }));
-    // Clear error when user starts typing
+  };
+
+  const updateSlot = (id: string, field: string, value: any) => {
+    setFormData((prev) => ({
+      ...prev,
+      slots: prev.slots.map((slot) =>
+        slot.id === id ? { ...slot, [field]: value } : slot,
+      ),
+    }));
+  };
+
+  const removeSlot = (id: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      slots: prev.slots.filter((slot) => slot.id !== id),
+    }));
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: name === "price" ? Number(value) || 0 : value,
+    }));
+
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
@@ -125,9 +178,10 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (validate()) {
-      await onSubmit(formData);
-    }
+
+    if (!validate()) return;
+
+    await onSubmit(formData);
   };
 
   const sections = [
@@ -282,33 +336,6 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
                       </p>
                     </div>
 
-                    {/* Slots */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Available Slots *
-                      </label>
-                      <input
-                        type="number"
-                        name="slots"
-                        min="1"
-                        value={formData.slots}
-                        onChange={handleChange}
-                        className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all ${
-                          errors.slots
-                            ? "border-red-300 bg-red-50"
-                            : "border-gray-300 hover:border-gray-400"
-                        }`}
-                      />
-                      {errors.slots && (
-                        <p className="mt-2 text-sm text-red-600">
-                          {errors.slots}
-                        </p>
-                      )}
-                      <p className="mt-2 text-xs text-gray-500">
-                        Maximum number of participants
-                      </p>
-                    </div>
-
                     {/* Summary */}
                     <div className="lg:col-span-2">
                       <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -338,13 +365,16 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
                         onDragOver={handleDragOver}
                         onDragLeave={handleDragLeave}
                         className={`relative border-2 border-dashed rounded-lg p-6 text-center transition-all
-      ${isDragging ? "border-primary bg-primary/5" : "border-gray-300"}
-    `}
+                          ${isDragging ? "border-primary bg-primary/5" : "border-gray-300"}
+                        `}
                       >
                         <input
                           type="file"
                           accept="image/*"
-                          onChange={handleFile}
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) handleFile(file);
+                          }}
                           className="absolute inset-0 opacity-0 cursor-pointer"
                         />
 
@@ -553,6 +583,122 @@ Module 3: Advanced Topics
                     </p>
                   </div>
 
+                  <div className="space-y-6">
+                    <div className="flex justify-between items-center">
+                      <h3 className="text-lg font-semibold text-gray-800">
+                        Training Slots
+                      </h3>
+                      <Button type="button" onClick={addSlot}>
+                        + Add Slot
+                      </Button>
+                    </div>
+
+                    {formData.slots.length === 0 && (
+                      <p className="text-sm text-gray-500">
+                        No slots added yet. Add at least one training slot.
+                      </p>
+                    )}
+
+                    {formData.slots.map((slot, index) => (
+                      <div
+                        key={slot.id}
+                        className="border rounded-lg p-4 space-y-4 bg-gray-50"
+                      >
+                        <div className="flex justify-between items-center">
+                          <h4 className="font-medium">Slot {index + 1}</h4>
+                          <button
+                            type="button"
+                            onClick={() => removeSlot(slot.id)}
+                            className="text-red-500 hover:text-red-700"
+                          >
+                            <X size={18} />
+                          </button>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <label className="text-sm font-medium">
+                              Start Date
+                            </label>
+                            <input
+                              type="date"
+                              value={slot.startDate}
+                              onChange={(e) =>
+                                updateSlot(slot.id, "startDate", e.target.value)
+                              }
+                              className="w-full px-3 py-2 border rounded-lg"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="text-sm font-medium">
+                              End Date
+                            </label>
+                            <input
+                              type="date"
+                              value={slot.endDate}
+                              onChange={(e) =>
+                                updateSlot(slot.id, "endDate", e.target.value)
+                              }
+                              className="w-full px-3 py-2 border rounded-lg"
+                            />
+                          </div>
+
+                          <div className="md:col-span-2">
+                            <label className="text-sm font-medium">
+                              Schedule
+                            </label>
+                            <input
+                              type="text"
+                              placeholder="Mon, Wed - 6 PM to 9 PM"
+                              value={slot.schedule}
+                              onChange={(e) =>
+                                updateSlot(slot.id, "schedule", e.target.value)
+                              }
+                              className="w-full px-3 py-2 border rounded-lg"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="text-sm font-medium">Seats</label>
+                            <input
+                              type="number"
+                              min={1}
+                              value={slot.seats}
+                              onChange={(e) =>
+                                updateSlot(
+                                  slot.id,
+                                  "seats",
+                                  Number(e.target.value),
+                                )
+                              }
+                              className="w-full px-3 py-2 border rounded-lg"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="text-sm font-medium">
+                              Available Seats
+                            </label>
+                            <input
+                              type="number"
+                              min={0}
+                              value={slot.availableSeats}
+                              onChange={(e) =>
+                                updateSlot(
+                                  slot.id,
+                                  "availableSeats",
+                                  Number(e.target.value),
+                                )
+                              }
+                              className="w-full px-3 py-2 border rounded-lg"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
                   <div className="bg-gray-50 p-4 rounded-lg">
                     <h3 className="font-medium text-gray-700 mb-2">Preview</h3>
                     <div className="text-sm text-gray-600 space-y-2">
@@ -566,7 +712,7 @@ Module 3: Advanced Topics
                       </p>
                       <p>
                         <span className="font-medium">Slots:</span>{" "}
-                        {formData.slots}
+                        {formData.slots.length}
                       </p>
                     </div>
                   </div>
@@ -616,7 +762,7 @@ Module 3: Advanced Topics
                     Continue
                   </Button>
                 ) : (
-                  <Button type="submit" loading={loading}>
+                  <Button type="submit" disabled={loading}>
                     {training ? "Update Training" : "Create Training"}
                   </Button>
                 )}

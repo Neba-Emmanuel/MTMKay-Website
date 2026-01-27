@@ -12,7 +12,7 @@ import TrainingForm, {
 import { mapTrainingPayload } from "../../utils/mapTrainingPayload";
 
 const ManageTrainings: React.FC = () => {
-  const { request, data: trainings, loading, error } = useApiRequest();
+  const { request, data: training, loading, error } = useApiRequest();
   const [showForm, setShowForm] = useState(false);
   const [editingTraining, setEditingTraining] = useState<any>(null);
   const [formLoading, setFormLoading] = useState(false);
@@ -43,25 +43,67 @@ const ManageTrainings: React.FC = () => {
     setFormLoading(true);
 
     try {
-      const payload = new FormData();
-
       const mapped = mapTrainingPayload(formData, {
         existingSlug: editingTraining?.slug,
       });
 
+      // If no file is being uploaded, send as JSON
+      if (!(formData.image instanceof File)) {
+        const response = await request({
+          method: editingTraining ? "PUT" : "POST",
+          url: editingTraining
+            ? `/trainings/${editingTraining.id}`
+            : "/trainings",
+          data: mapped, // Send the mapped object directly
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        console.log("Response:", response);
+
+        sweetAlert({
+          icon: "success",
+          title: editingTraining
+            ? "Training updated successfully"
+            : "Training created successfully",
+        });
+
+        setShowForm(false);
+        fetchTrainings();
+        return;
+      }
+
+      // If there's a file, use FormData
+      const payload = new FormData();
+
+      // Add all other fields
       Object.entries(mapped).forEach(([key, value]) => {
-        if (value !== null && value !== undefined) {
+        if (value !== null && value !== undefined && key !== "slots") {
           payload.append(key, String(value));
         }
       });
 
-      await request({
+      // Add slots as JSON string
+      payload.append("slots", JSON.stringify(mapped.slots));
+
+      // Add image
+      if (formData.image instanceof File) {
+        payload.append("image", formData.image);
+      }
+
+      const response = await request({
         method: editingTraining ? "PUT" : "POST",
         url: editingTraining
           ? `/trainings/${editingTraining.id}`
           : "/trainings",
         data: payload,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
+
+      console.log("Response:", response);
 
       sweetAlert({
         icon: "success",
@@ -72,8 +114,12 @@ const ManageTrainings: React.FC = () => {
 
       setShowForm(false);
       fetchTrainings();
-    } catch (err) {
-      sweetAlert({ icon: "error", title: "Operation failed" });
+    } catch (err: any) {
+      console.error("Error:", err);
+      sweetAlert({
+        icon: "error",
+        title: err.response?.data?.error || "Operation failed",
+      });
     } finally {
       setFormLoading(false);
     }
@@ -128,7 +174,7 @@ const ManageTrainings: React.FC = () => {
             <p className="p-4 text-red-600">Failed to load trainings</p>
           )}
 
-          {!loading && trainings && (
+          {!loading && training && (
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
@@ -150,7 +196,7 @@ const ManageTrainings: React.FC = () => {
                 </thead>
 
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {trainings.map((training: any) => (
+                  {training.map((training: any) => (
                     <tr key={training.id}>
                       <td className="px-6 py-4 text-sm font-medium text-gray-900">
                         {training.title}
@@ -158,9 +204,23 @@ const ManageTrainings: React.FC = () => {
                       <td className="px-6 py-4 text-sm text-gray-500">
                         {training.price.toLocaleString()} XAF
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-500">
-                        {training.slots}
-                      </td>
+                      {training.slots.map((slot: any) => (
+                        <tr
+                          key={slot.id}
+                          className="px-6 py-1 text-sm text-gray-500 flex flex-col"
+                        >
+                          <td>{slot.schedule || "No schedule specified"}</td>
+                          {/* {slot.startDate
+                            ? new Date(slot.startDate).toLocaleDateString()
+                            : "No start date"}
+                          {" - "}
+                          {slot.endDate
+                            ? new Date(slot.endDate).toLocaleDateString()
+                            : "No end date"} */}
+                          <td>Seats: {slot.seats} - Available: </td>
+                          {slot.availableSeats}
+                        </tr>
+                      ))}
                       <td className="px-6 py-4 text-sm text-gray-500">
                         {new Date(training.createdAt).toLocaleDateString()}
                       </td>
