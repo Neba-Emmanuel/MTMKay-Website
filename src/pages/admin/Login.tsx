@@ -58,8 +58,9 @@ const AdminLogin: React.FC = () => {
 
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
         <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-          <div className="text-center">
-            <Briefcase className="mx-auto h-12 w-auto text-primary" />
+          <div className="flex flex-col items-center">
+            {/* <Briefcase className="mx-auto h-12 w-auto text-primary" /> */}
+            <img src="/mtmkay_logo.png" width="90" height="90" />
             <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
               Admin Portal Login
             </h2>
