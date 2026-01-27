@@ -43,6 +43,13 @@ const TrainingDetail: React.FC = () => {
       <Helmet>
         <title>{training.title} - MTMKay</title>
         <meta name="description" content={training.shortDescription} />
+        <meta property="og:title" content={training.title} />
+        <meta property="og:description" content={training.shortDescription} />
+        <meta property="og:image" content={training.bannerImage} />
+        <link
+          rel="canonical"
+          href={`https://www.mtmkay.com/trainings/${training.id}`}
+        />
       </Helmet>
 
       {/* Banner */}

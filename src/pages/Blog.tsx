@@ -14,6 +14,7 @@ const Blog: React.FC = () => {
           name="description"
           content="Read the latest articles, insights, and news from the IT world on the MTMKay blog."
         />
+        <link rel="canonical" href="https://www.mtmkay.com/blog" />
       </Helmet>
 
       {/* Page Header */}

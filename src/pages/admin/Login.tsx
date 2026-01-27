@@ -1,7 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { AuthContext } from "../../../App";
+import { AuthContext } from "@/src/components/context/authContext";
 import Input from "../../components/ui/Input";
 import Button from "../../components/ui/Button";
 import { Briefcase } from "lucide-react";
@@ -11,10 +11,18 @@ import sweetAlert from "@/src/utils/alerts";
 const AdminLogin: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useContext(AuthContext);
+
+  const { login, isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const { request, loading, error } = useApiRequest();
+
+  // 🔐 Prevent logged-in admin from seeing login page
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/admin/dashboard", { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,16 +33,16 @@ const AdminLogin: React.FC = () => {
         url: "/auth/login",
         data: { email, password },
       });
-      localStorage.setItem("token", response.token);
-      console.log("Login successful:", response);
 
       login(response.token);
+
       await sweetAlert({
         icon: "success",
-        title: "Login successful, Welcome back 👋",
+        title: "Login successful, welcome back 👋",
       });
-      navigate("/admin/dashboard");
-    } catch (err: any) {
+
+      navigate("/admin/dashboard", { replace: true });
+    } catch (err) {
       sweetAlert({
         icon: "error",
         title: "Login unsuccessful!",

@@ -36,6 +36,7 @@ const Trainings: React.FC = () => {
           name="description"
           content="Browse our comprehensive list of IT trainings. Find the perfect course in web development, data science, cybersecurity, and more."
         />
+        <link rel="canonical" href="https://www.mtmkay.com/trainings" />
       </Helmet>
 
       {/* Page Header */}

@@ -43,6 +43,7 @@ const Home: React.FC = () => {
           name="description"
           content="Welcome to MTMKay, a leading center for IT training and consultancy. Explore our courses in web development, data science, and more."
         />
+        <link rel="canonical" href="https://www.mtmkay.com/" />
       </Helmet>
 
       {/* Hero Section */}

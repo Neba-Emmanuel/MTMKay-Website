@@ -32,6 +32,7 @@ const Services: React.FC = () => {
           name="description"
           content="Explore our range of IT consulting and training services designed to empower your business and career."
         />
+        <link rel="canonical" href="https://www.mtmkay.com/services" />
       </Helmet>
 
       {/* Page Header */}

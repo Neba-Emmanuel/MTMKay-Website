@@ -45,6 +45,7 @@ const About: React.FC = () => {
           name="description"
           content="Learn about MTMKay's mission, vision, and the expert team dedicated to your success in the IT industry."
         />
+        <link rel="canonical" href="https://www.mtmkay.com/about" />
       </Helmet>
 
       {/* Page Header */}

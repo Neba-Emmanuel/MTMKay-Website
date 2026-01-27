@@ -27,7 +27,7 @@ const Contact: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { id, value } = e.target;
     setFormData((prev) => ({
@@ -133,6 +133,7 @@ const Contact: React.FC = () => {
           name="description"
           content="Get in touch with MTMKay for inquiries about our courses, services, or any other questions."
         />
+        <link rel="canonical" href="https://www.mtmkay.com/contact" />
       </Helmet>
 
       {/* Page Header */}
