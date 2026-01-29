@@ -1,20 +1,24 @@
-import { useApiRequest } from "../hooks/useApiRequest";
-
-export async function uploadImage(file: File, type: "blog" | "training") {
-  const { request } = useApiRequest();
+export async function uploadImage(
+  file: File,
+  type: "blog" | "training",
+): Promise<string> {
   const formData = new FormData();
   formData.append("file", file);
   formData.append("type", type);
 
-  const res = await request({
+  const res = await fetch("https://mtmkay-backend.vercel.app/api/upload", {
     method: "POST",
-    url: "https://mtmkay.com/api/upload.php",
-    data: formData,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+    },
+    body: formData,
   });
 
+  const data = await res.json();
+
   if (!res.ok) {
-    throw new Error("Image upload failed");
+    throw new Error(data.error || "Upload failed");
   }
 
-  return res.json();
+  return data.url;
 }

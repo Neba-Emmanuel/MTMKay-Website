@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import Button from "../../components/ui/Button";
 import Card from "../../components/ui/Card";
-import { X, Info } from "lucide-react";
+import { X, Info, Image as ImageIcon } from "lucide-react";
 
 interface TrainingFormProps {
   training?: any;
   onSubmit: (data: TrainingFormData) => Promise<void>;
   onCancel: () => void;
   loading?: boolean;
-  uploadProgress?: number;
 }
 
 export interface TrainingSlot {
@@ -29,7 +28,7 @@ export interface TrainingFormData {
   resources: string;
   slots: TrainingSlot[];
   price: number;
-  image?: File | null;
+  imageUrl?: string | null;
 }
 
 const TrainingForm: React.FC<TrainingFormProps> = ({
@@ -38,13 +37,6 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
   onCancel,
   loading = false,
 }) => {
-  const [uploadProgress, setUploadProgress] = useState<number>(0);
-  const [isDragging, setIsDragging] = useState(false);
-
-  const [imagePreview, setImagePreview] = useState<string | null>(
-    training?.image || null,
-  );
-
   const [formData, setFormData] = useState<TrainingFormData>({
     title: training?.title || "",
     summary: training?.summary || "",
@@ -63,7 +55,7 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
       },
     ],
     price: training?.price || 0,
-    image: null,
+    imageUrl: training?.imageUrl || null,
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -84,12 +76,21 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
       newErrors.price = "Price cannot be negative";
     }
 
-    if (formData.slots.length < 1) {
-      newErrors.slots = "Must have at least 1 slot";
+    if (formData.imageUrl && !isValidUrl(formData.imageUrl)) {
+      newErrors.imageUrl = "Please enter a valid URL";
     }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
+  };
+
+  const isValidUrl = (urlString: string): boolean => {
+    try {
+      new URL(urlString);
+      return true;
+    } catch (e) {
+      return false;
+    }
   };
 
   const addSlot = () => {
@@ -140,40 +141,20 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
     }
   };
 
-  const handleFile = (file: File) => {
-    if (!file.type.startsWith("image/")) {
-      alert("Please select an image file");
-      return;
-    }
-
+  const handleImageUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      image: file,
+      imageUrl: value || null,
     }));
 
-    setImagePreview(URL.createObjectURL(file));
-  };
-
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragging(false);
-
-    const file = e.dataTransfer.files?.[0];
-    if (file) handleFile(file);
-  };
-
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragging(true);
-  };
-
-  const handleDragLeave = () => {
-    setIsDragging(false);
+    if (errors.imageUrl) {
+      setErrors((prev) => ({ ...prev, imageUrl: "" }));
+    }
   };
 
   const removeImage = () => {
-    setFormData((prev) => ({ ...prev, image: null }));
-    setImagePreview(null);
+    setFormData((prev) => ({ ...prev, imageUrl: null }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -181,7 +162,12 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
 
     if (!validate()) return;
 
-    await onSubmit(formData);
+    try {
+      await onSubmit(formData);
+    } catch (error) {
+      console.error(error);
+      alert("Failed to save training. Please try again.");
+    }
   };
 
   const sections = [
@@ -190,6 +176,20 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
     { id: "content", label: "Course Content" },
     { id: "logistics", label: "Logistics" },
   ];
+
+  const getImagePreviewUrl = () => {
+    if (!formData.imageUrl) return null;
+
+    // Try to display the image, but handle potential CORS issues
+    try {
+      const url = new URL(formData.imageUrl);
+      return formData.imageUrl;
+    } catch {
+      return null;
+    }
+  };
+
+  const imagePreview = getImagePreviewUrl();
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center p-4 z-50 overflow-y-auto">
@@ -309,9 +309,6 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
                         Price (XAF) *
                       </label>
                       <div className="relative">
-                        {/* <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
-                          XAF
-                        </span> */}
                         <input
                           type="number"
                           name="price"
@@ -354,87 +351,91 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
                       </p>
                     </div>
 
-                    {/* Training Image */}
+                    {/* Training Image URL */}
                     <div className="lg:col-span-2">
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Training Cover Image
+                        Training Cover Image URL
                       </label>
 
-                      <div
-                        onDrop={handleDrop}
-                        onDragOver={handleDragOver}
-                        onDragLeave={handleDragLeave}
-                        className={`relative border-2 border-dashed rounded-lg p-6 text-center transition-all
-                          ${isDragging ? "border-primary bg-primary/5" : "border-gray-300"}
-                        `}
-                      >
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={(e) => {
-                            const file = e.target.files?.[0];
-                            if (file) handleFile(file);
-                          }}
-                          className="absolute inset-0 opacity-0 cursor-pointer"
-                        />
-
-                        {!imagePreview ? (
-                          <p className="text-gray-500 text-sm">
-                            Drag & drop an image here, or click to select
-                          </p>
+                      <div className="space-y-4">
+                        {imagePreview ? (
+                          <>
+                            <div className="border rounded-lg p-4">
+                              <div className="flex items-start gap-4">
+                                <div className="flex-shrink-0">
+                                  <img
+                                    src={imagePreview}
+                                    alt="Preview"
+                                    className="h-32 w-48 rounded-lg object-cover border"
+                                    onError={(e) => {
+                                      (
+                                        e.target as HTMLImageElement
+                                      ).style.display = "none";
+                                    }}
+                                  />
+                                </div>
+                                <div className="flex-1">
+                                  <input
+                                    type="url"
+                                    value={formData.imageUrl || ""}
+                                    onChange={handleImageUrlChange}
+                                    placeholder="https://example.com/image.jpg"
+                                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all ${
+                                      errors.imageUrl
+                                        ? "border-red-300 bg-red-50"
+                                        : "border-gray-300 hover:border-gray-400"
+                                    }`}
+                                  />
+                                  {errors.imageUrl && (
+                                    <p className="mt-2 text-sm text-red-600">
+                                      {errors.imageUrl}
+                                    </p>
+                                  )}
+                                </div>
+                              </div>
+                              <div className="flex justify-end mt-4">
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  className="text-red-600 border-red-300"
+                                  onClick={removeImage}
+                                >
+                                  Remove Image
+                                </Button>
+                              </div>
+                            </div>
+                          </>
                         ) : (
-                          <div className="space-y-4">
-                            <img
-                              src={imagePreview}
-                              alt="Preview"
-                              className="mx-auto h-40 rounded-lg object-cover border"
-                            />
-
-                            <div className="flex justify-center gap-3">
-                              <Button
-                                type="button"
-                                variant="outline"
-                                onClick={() =>
-                                  document
-                                    .querySelector<HTMLInputElement>(
-                                      'input[type="file"]',
-                                    )
-                                    ?.click()
-                                }
-                              >
-                                Replace Image
-                              </Button>
-
-                              <Button
-                                type="button"
-                                variant="outline"
-                                className="text-red-600 border-red-300"
-                                onClick={removeImage}
-                              >
-                                Remove
-                              </Button>
+                          <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-gray-400 transition-colors">
+                            <div className="flex flex-col items-center">
+                              <ImageIcon className="w-12 h-12 text-gray-400 mb-3" />
+                              <p className="text-gray-600 mb-4">
+                                Add a cover image for your training
+                              </p>
+                              <input
+                                type="url"
+                                value={formData.imageUrl || ""}
+                                onChange={handleImageUrlChange}
+                                placeholder="https://example.com/image.jpg"
+                                className={`w-full max-w-md px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all ${
+                                  errors.imageUrl
+                                    ? "border-red-300 bg-red-50"
+                                    : "border-gray-300 hover:border-gray-400"
+                                }`}
+                              />
+                              {errors.imageUrl && (
+                                <p className="mt-2 text-sm text-red-600">
+                                  {errors.imageUrl}
+                                </p>
+                              )}
                             </div>
                           </div>
                         )}
                       </div>
 
-                      {/* Upload Progress */}
-                      {uploadProgress > 0 && uploadProgress < 100 && (
-                        <div className="mt-3">
-                          <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-                            <div
-                              className="h-full bg-primary transition-all"
-                              style={{ width: `${uploadProgress}%` }}
-                            />
-                          </div>
-                          <p className="text-xs text-gray-500 mt-1">
-                            Uploading… {uploadProgress}%
-                          </p>
-                        </div>
-                      )}
-
                       <p className="mt-2 text-xs text-gray-500">
-                        JPG / PNG • Recommended 1200×600px
+                        Enter the full URL of your training cover image (e.g.,
+                        https://yourdomain.com/images/training.jpg)
                       </p>
                     </div>
                   </div>
@@ -714,6 +715,14 @@ Module 3: Advanced Topics
                         <span className="font-medium">Slots:</span>{" "}
                         {formData.slots.length}
                       </p>
+                      {formData.imageUrl && (
+                        <p>
+                          <span className="font-medium">Image:</span>{" "}
+                          <span className="text-blue-600 truncate block">
+                            {formData.imageUrl}
+                          </span>
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
