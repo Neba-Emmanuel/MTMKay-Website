@@ -163,6 +163,11 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
     if (!validate()) return;
 
     try {
+      console.log("🚀 Form data being submitted:", {
+        ...formData,
+        imageUrl: formData.imageUrl,
+      });
+
       await onSubmit(formData);
     } catch (error) {
       console.error(error);

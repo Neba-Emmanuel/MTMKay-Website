@@ -163,19 +163,22 @@ const Trainings: React.FC = () => {
                     key={training.id}
                     className="h-full flex flex-col hover:shadow-lg transition-shadow"
                   >
-                    {/* You'll need to add imageUrl to your training model */}
                     {training.imageUrl ? (
-                      <img
-                        src={training.imageUrl}
-                        alt={training.title}
-                        className="w-full object-cover rounded-t-lg"
-                      />
+                      <div className="w-full h-48 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-t-lg flex items-center justify-center">
+                        <div className="text-primary text-center">
+                          <img
+                            src={training.imageUrl}
+                            alt={training.title}
+                            className="w-full object-cover rounded-t-lg"
+                          />
+                        </div>
+                      </div>
                     ) : (
                       <div className="w-full h-48 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-t-lg flex items-center justify-center">
                         <div className="text-primary text-center">
                           <img
-                            src={"/Full-Stack-Developer-Bootcamp.jpeg"}
-                            alt={"Full-Stack-Developer-Bootcamp"}
+                            src={"/learning.jpg"}
+                            alt={"MTMKay Training"}
                             className="w-full object-cover rounded-t-lg"
                           />
                         </div>

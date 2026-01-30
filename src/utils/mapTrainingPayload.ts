@@ -35,5 +35,6 @@ export const mapTrainingPayload = (
     })),
 
     price: Number(data.price),
+    imageUrl: data.imageUrl || null,
   };
 };

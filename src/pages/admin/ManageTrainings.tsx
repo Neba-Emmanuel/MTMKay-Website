@@ -16,7 +16,6 @@ const ManageTrainings: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
   const [editingTraining, setEditingTraining] = useState<any>(null);
   const [formLoading, setFormLoading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
 
   useEffect(() => {
     fetchTrainings();
@@ -47,59 +46,15 @@ const ManageTrainings: React.FC = () => {
         existingSlug: editingTraining?.slug,
       });
 
-      // If no file is being uploaded, send as JSON
-      if (!(formData.image instanceof File)) {
-        const response = await request({
-          method: editingTraining ? "PUT" : "POST",
-          url: editingTraining
-            ? `/trainings/${editingTraining.id}`
-            : "/trainings",
-          data: mapped, // Send the mapped object directly
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        console.log("Response:", response);
-
-        sweetAlert({
-          icon: "success",
-          title: editingTraining
-            ? "Training updated successfully"
-            : "Training created successfully",
-        });
-
-        setShowForm(false);
-        fetchTrainings();
-        return;
-      }
-
-      // If there's a file, use FormData
-      const payload = new FormData();
-
-      // Add all other fields
-      Object.entries(mapped).forEach(([key, value]) => {
-        if (value !== null && value !== undefined && key !== "slots") {
-          payload.append(key, String(value));
-        }
-      });
-
-      // Add slots as JSON string
-      payload.append("slots", JSON.stringify(mapped.slots));
-
-      // Add image
-      if (formData.image instanceof File) {
-        payload.append("image", formData.image);
-      }
-
+      // Always send as JSON since we're using imageUrl instead of file upload
       const response = await request({
         method: editingTraining ? "PUT" : "POST",
         url: editingTraining
           ? `/trainings/${editingTraining.id}`
           : "/trainings",
-        data: payload,
+        data: mapped,
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
         },
       });
 
@@ -324,7 +279,6 @@ const ManageTrainings: React.FC = () => {
               setEditingTraining(null);
             }}
             loading={formLoading}
-            uploadProgress={uploadProgress}
           />
         )}
       </div>
