@@ -81,7 +81,7 @@ const Dashboard: React.FC = () => {
           request({ method: "GET", url: "/trainings" }),
           request({ method: "GET", url: "/registrations" }),
           request({ method: "GET", url: "/payments" }),
-          request({ method: "GET", url: "/blogs" }), // You'll need to create this endpoint
+          request({ method: "GET", url: "/blogs" }),
         ]);
 
       const trainings = trainingsRes || [];
@@ -234,10 +234,10 @@ const Dashboard: React.FC = () => {
       color: "bg-purple-500 hover:bg-purple-600",
     },
     {
-      title: "Analytics",
-      description: "View detailed analytics",
+      title: "Blog Management",
+      description: "View and manage blog posts",
       icon: <TrendingUp size={20} />,
-      link: "/admin/analytics",
+      link: "/admin/blog",
       color: "bg-orange-500 hover:bg-orange-600",
     },
   ];
