@@ -17,20 +17,13 @@ export const teamData: TeamMember[] = [
   },
   {
     id: "3",
-    name: "Tabi Celine",
-    role: "Operation Manager",
-    bio: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-    imageUrl: "/team/tabi-celine.png",
-  },
-  {
-    id: "4",
     name: "Marie Ebangha",
     role: "Marketing Manager",
     bio: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     imageUrl: "/team/marie-ebangha.jpeg",
   },
   {
-    id: "5",
+    id: "4",
     name: "Neba Emmanuel",
     role: "IT Officer",
     bio: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
