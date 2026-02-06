@@ -11,10 +11,12 @@ import {
   Briefcase,
   ChevronLeft,
   ChevronRight,
+  Globe,
+  Lightbulb,
+  Handshake,
 } from "lucide-react";
 
 const About: React.FC = () => {
-  // Partners data
   const partners = [
     { id: 1, name: "Cisco", logo: "/cisco.png", alt: "Cisco Partner" },
     {
@@ -35,6 +37,12 @@ const About: React.FC = () => {
       logo: "/paloalto.jpg",
       alt: "Palo Alto Networks Partner",
     },
+    {
+      id: 5,
+      name: "LIMPS LTD",
+      logo: "/limps-ltd.jpeg",
+      alt: "LIMPS LTD Social Innovation Partner",
+    },
   ];
 
   return (
@@ -45,6 +53,7 @@ const About: React.FC = () => {
           name="description"
           content="Learn about MTMKay's mission, vision, and the expert team dedicated to your success in the IT industry."
         />
+        <link rel="canonical" href="https://www.mtmkay.com/about" />
       </Helmet>
 
       {/* Page Header */}
@@ -92,7 +101,7 @@ const About: React.FC = () => {
               transition={{ duration: 0.7 }}
             >
               <h2 className="text-3xl font-bold mb-4">Who We Are</h2>
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-gray-600 leading-relaxed mb-6">
                 MTMKay Technology Solutions combines technical expertise,
                 strategic partnerships with top technology providers, and a
                 commitment to bridging the digital divide. Our team delivers
@@ -102,6 +111,12 @@ const About: React.FC = () => {
                 CyberSecurity, and industry-leading training programs. We are
                 committed to driving digital transformation and fostering growth
                 within our community and beyond.
+              </p>
+              <p className="text-gray-600 leading-relaxed">
+                We collaborate with forward-thinking partners like LIMPS LTD to
+                bring sustainable, socially impactful technology solutions to
+                our community, combining technical excellence with social
+                responsibility.
               </p>
             </motion.div>
           </div>
@@ -137,66 +152,190 @@ const About: React.FC = () => {
         </div>
       </section>
 
+      {/* Strategic Partner Spotlight */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center justify-center mb-4">
+              <Handshake className="text-primary mr-3" size={40} />
+              <h2 className="text-3xl font-bold">
+                Strategic Partner Spotlight
+              </h2>
+            </div>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              We're proud to collaborate with innovative organizations that
+              share our commitment to excellence and social impact.
+            </p>
+          </div>
+
+          {/* LIMPS LTD Feature */}
+          <Card className="max-w-4xl mx-auto overflow-hidden border-2 border-primary/20">
+            <div className="md:flex">
+              <div className="md:w-1/3 bg-primary/5 p-8 flex flex-col items-center justify-center">
+                <div className="mb-6">
+                  <div className="w-48 h-24 flex items-center justify-center mb-4">
+                    <img
+                      src="/limps-ltd.jpeg"
+                      alt="LIMPS LTD Logo"
+                      className="max-w-full max-h-full object-contain rounded-full"
+                    />
+                  </div>
+                  <h3 className="text-2xl font-bold text-center mb-2">
+                    LIMPS LTD
+                  </h3>
+                  <p className="text-gray-600 text-center text-sm">
+                    Social Innovation Company
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap gap-2 justify-center">
+                  <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">
+                    Social Innovation
+                  </span>
+                  <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
+                    Sustainability
+                  </span>
+                  <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-xs font-medium">
+                    Community Impact
+                  </span>
+                </div>
+              </div>
+
+              {/* Partner Representative Info */}
+              <div className="md:w-2/3 p-8">
+                <div className="flex items-start mb-6">
+                  <div className="mr-6">
+                    <div className="w-32 h-32 rounded-full overflow-hidden bg-gradient-to-r from-blue-400 to-blue-600 flex items-center justify-center">
+                      <img
+                        src="/team/lucien-fonyuy.png"
+                        alt="Yilareng Lucien Fonyuy"
+                        className="w-full h-full object-cover border-2 border-green-500 rounded-full"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold mb-1">
+                      Yilareng Lucien Fonyuy
+                    </h3>
+                    <p className="text-primary font-semibold mb-2">
+                      Social Entrepreneur | Sustainability Strategist
+                    </p>
+                    <p className="text-gray-600 mb-4">
+                      A visionary leader dedicated to creating sustainable
+                      solutions and driving positive social change through
+                      innovative technology and strategic partnerships.
+                    </p>
+                    <div className="flex items-center text-sm text-gray-500">
+                      <Globe size={16} className="mr-2" />
+                      <span>Driving sustainable innovation in tech</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="border-t pt-6">
+                  <h4 className="text-lg font-bold mb-3 flex items-center">
+                    <Lightbulb size={20} className="mr-2 text-primary" />
+                    Partnership Focus
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex items-start">
+                      <div className="bg-blue-50 p-2 rounded mr-3">
+                        <Target size={16} className="text-blue-600" />
+                      </div>
+                      <div>
+                        <h5 className="font-medium">
+                          Sustainable Tech Solutions
+                        </h5>
+                        <p className="text-sm text-gray-600">
+                          Developing environmentally conscious technology
+                          implementations
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-start">
+                      <div className="bg-green-50 p-2 rounded mr-3">
+                        <Users size={16} className="text-green-600" />
+                      </div>
+                      <div>
+                        <h5 className="font-medium">Community Empowerment</h5>
+                        <p className="text-sm text-gray-600">
+                          Technology training and access for underserved
+                          communities
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </section>
+
       {/* Partners Carousel Section */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Our Trusted Partners</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              We collaborate with industry leaders to bring you certified
-              training and cutting-edge solutions
+              We collaborate with industry leaders and innovative organizations
+              to bring you certified training and cutting-edge solutions
             </p>
           </div>
 
-          {/* Carousel/Grid for Partners */}
-          <div className="relative">
-            {/* Carousel Navigation (for future implementation) */}
-            {/* <button className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 z-10 bg-white rounded-full p-2 shadow-lg">
-              <ChevronLeft size={24} className="text-gray-700" />
-            </button>
-            <button className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 z-10 bg-white rounded-full p-2 shadow-lg">
-              <ChevronRight size={24} className="text-gray-700" />
-            </button> */}
-
-            {/* Partners Grid - Responsive */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
-              {partners.map((partner) => (
-                <motion.div
-                  key={partner.id}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5 }}
-                  whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
-                  className="bg-gray-50 rounded-xl p-6 flex items-center justify-center shadow-sm hover:shadow-md transition-shadow duration-300"
-                >
-                  <div className="flex flex-col items-center">
-                    <div className="w-32 h-24 flex items-center justify-center mb-3">
-                      <img
-                        src={partner.logo}
-                        alt={partner.alt}
-                        className="max-w-full max-h-full object-contain"
-                      />
-                    </div>
-                    <span className="text-sm font-medium text-gray-700">
-                      {partner.name}
-                    </span>
+          {/* Partners Grid - Responsive */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-8">
+            {partners.map((partner) => (
+              <motion.div
+                key={partner.id}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+                className={`bg-gray-50 rounded-xl p-6 flex items-center justify-center shadow-sm hover:shadow-md transition-shadow duration-300 ${
+                  partner.name === "LIMPS LTD"
+                    ? "border-2 border-green-500 bg-green-50"
+                    : ""
+                }`}
+              >
+                <div className="flex flex-col items-center">
+                  <div className="w-32 h-24 flex items-center justify-center mb-3">
+                    <img
+                      src={partner.logo}
+                      alt={partner.alt}
+                      className="max-w-full max-h-full object-contain"
+                      onError={(e) => {
+                        if (partner.name === "LIMPS LTD") {
+                          (e.target as HTMLImageElement).style.display = "none";
+                          const fallback = document.createElement("div");
+                          fallback.className =
+                            "w-full h-full bg-gradient-to-r from-green-500 to-green-700 rounded-lg flex items-center justify-center";
+                          fallback.innerHTML = `<span class="text-white font-bold">${partner.name}</span>`;
+                          (
+                            e.target as HTMLImageElement
+                          ).parentNode?.appendChild(fallback);
+                        }
+                      }}
+                    />
                   </div>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Dots indicator for carousel (for future implementation) */}
-            {/* <div className="flex justify-center mt-8 space-x-2">
-              {partners.slice(0, partners.length - 2).map((_, index) => (
-                <button
-                  key={index}
-                  className={`w-2 h-2 rounded-full ${
-                    index === 0 ? 'bg-primary' : 'bg-gray-300'
-                  }`}
-                />
-              ))}
-            </div> */}
+                  <span
+                    className={`text-sm font-medium ${
+                      partner.name === "LIMPS LTD"
+                        ? "text-green-700 font-bold"
+                        : "text-gray-700"
+                    }`}
+                  >
+                    {partner.name}
+                  </span>
+                  {partner.name === "LIMPS LTD" && (
+                    <span className="text-xs text-green-600 mt-1">
+                      Social Innovation Partner
+                    </span>
+                  )}
+                </div>
+              </motion.div>
+            ))}
           </div>
 
           {/* Partner Benefits */}
@@ -204,7 +343,7 @@ const About: React.FC = () => {
             <h3 className="text-2xl font-bold mb-6">
               Benefits of Our Partnerships
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <div className="p-6">
                 <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Award className="text-primary" size={24} />
@@ -241,16 +380,25 @@ const About: React.FC = () => {
                   organizations
                 </p>
               </div>
+              <div className="p-6">
+                <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Globe className="text-green-600" size={24} />
+                </div>
+                <h4 className="text-lg font-semibold mb-2">Social Impact</h4>
+                <p className="text-gray-600 text-sm">
+                  Sustainable and socially responsible technology initiatives
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Why Train at MTMKay */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-12">Why Train With Us?</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="p-6">
               <Award size={48} className="mx-auto text-secondary mb-4" />
               <h3 className="text-xl font-bold mb-2">Industry-Recognized</h3>
@@ -272,6 +420,13 @@ const About: React.FC = () => {
                 We don't just teach, we prepare you for your next career move.
               </p>
             </div>
+            <div className="p-6">
+              <Globe size={48} className="mx-auto text-green-600 mb-4" />
+              <h3 className="text-xl font-bold mb-2">Social Responsibility</h3>
+              <p className="text-gray-600">
+                Learn in an environment committed to sustainable tech practices.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -285,7 +440,7 @@ const About: React.FC = () => {
               The driving force behind our success.
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {teamData.map((member) => (
               <Card key={member.id} className="text-center py-6">
                 <img
@@ -295,7 +450,6 @@ const About: React.FC = () => {
                 />
                 <h3 className="text-xl font-bold">{member.name}</h3>
                 <p className="text-primary font-semibold mb-2">{member.role}</p>
-                {/* <p className="text-gray-600 text-sm">{member.bio}</p> */}
               </Card>
             ))}
           </div>

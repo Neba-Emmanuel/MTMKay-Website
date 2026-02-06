@@ -22,6 +22,7 @@ export const useApiRequest = <T = any>() => {
     try {
       const response = await api.request<T>(config);
       setData(response.data);
+      console.log("API Response:", response.data);
       return response.data;
     } catch (err) {
       const axiosError = err as AxiosError<any>;
@@ -38,5 +39,9 @@ export const useApiRequest = <T = any>() => {
     }
   }, []);
 
-  return { request, data, loading, error };
+  const clearData = useCallback(() => {
+    setData(null);
+  }, []);
+
+  return { request, data, loading, error, clearData };
 };

@@ -3,7 +3,7 @@ import { TrainingFormData } from "@/src/components/admin/TrainingForm";
 
 export const mapTrainingPayload = (
   data: TrainingFormData,
-  options?: { existingSlug?: string }
+  options?: { existingSlug?: string },
 ) => {
   return {
     title: data.title.trim(),
@@ -26,8 +26,15 @@ export const mapTrainingPayload = (
 
     resources: data.resources?.trim() || null,
 
-    slots: Number(data.slots),
+    slots: data.slots.map(({ id, ...slot }) => ({
+      startDate: slot.startDate || null,
+      endDate: slot.endDate || null,
+      schedule: slot.schedule?.trim() || null,
+      seats: Number(slot.seats),
+      availableSeats: Number(slot.availableSeats),
+    })),
 
     price: Number(data.price),
+    imageUrl: data.imageUrl || null,
   };
 };
