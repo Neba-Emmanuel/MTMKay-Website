@@ -133,7 +133,7 @@ const Services: React.FC = () => {
               Our Work Café is designed as the perfect environment for digital
               professionals, remote workers, and online learners. With
               high-speed internet, comfortable workspaces, and all the amenities
-              you need, it's more than just a workspace—it's your productivity
+              you need, it's more than just a workspace, it's your productivity
               hub.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
