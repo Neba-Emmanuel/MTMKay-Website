@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { servicesData } from "../data/services";
 import Card from "../components/ui/Card";
 import Button from "../components/ui/Button";
+import { Link } from "react-router-dom";
+import { Coffee } from "lucide-react";
 
 const Services: React.FC = () => {
   const containerVariants = {
@@ -23,6 +25,13 @@ const Services: React.FC = () => {
       opacity: 1,
     },
   };
+
+  const reorderedServices = [
+    servicesData[0],
+    servicesData[1], // 4. Cloud Solutions Consulting (Cloud)
+    servicesData[2], // 5. Cybersecurity Assessment (Cyber)
+    servicesData[3], // 6. Custom Software Development (Other offerings)
+  ];
 
   return (
     <>
@@ -67,24 +76,101 @@ const Services: React.FC = () => {
             initial="hidden"
             animate="visible"
           >
-            {servicesData.map((service) => (
+            {reorderedServices.map((service) => (
               <motion.div key={service.id} variants={itemVariants}>
-                <Card className="p-8 h-full flex items-start space-x-6">
-                  <div className="flex-shrink-0">
-                    <div className="flex items-center justify-center h-16 w-16 bg-primary/10 text-primary rounded-lg">
-                      <service.icon size={32} />
+                <Card
+                  className={`p-8 h-full flex flex-col ${service.featured ? "border-2 border-primary shadow-lg" : ""}`}
+                >
+                  <div className="flex items-start space-x-6 mb-4">
+                    <div className="flex-shrink-0">
+                      <div className="flex items-center justify-center h-16 w-16 bg-primary/10 text-primary rounded-lg">
+                        <service.icon size={32} />
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2 mb-2">
+                        <h3 className="text-2xl font-bold">{service.title}</h3>
+                        {service.featured && (
+                          <span className="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">
+                            NEW
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-gray-600 leading-relaxed">
+                        {service.description}
+                      </p>
                     </div>
                   </div>
-                  <div>
-                    <h3 className="text-2xl font-bold mb-2">{service.title}</h3>
-                    <p className="text-gray-600 leading-relaxed">
-                      {service.description}
-                    </p>
-                  </div>
+
+                  {/* Learn More button for Work Café */}
+                  {service.id === "work-cafe" && (
+                    <div className="mt-4 pt-4 border-t border-gray-200">
+                      <Button
+                        asLink
+                        to={service.learnMoreLink || "#"}
+                        variant="outline"
+                        className="w-full sm:w-auto"
+                      >
+                        Learn More
+                      </Button>
+                    </div>
+                  )}
                 </Card>
               </motion.div>
             ))}
           </motion.div>
+        </div>
+      </section>
+
+      {/* Work Café Feature Section */}
+      <section className="bg-gradient-to-r from-primary/5 to-blue-50 py-16">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl font-bold mb-6">
+              Work Café: Your Professional Workspace Solution
+            </h2>
+            <p className="text-lg text-gray-700 mb-8">
+              Our Work Café is designed as the perfect environment for digital
+              professionals, remote workers, and online learners. With
+              high-speed internet, comfortable workspaces, and all the amenities
+              you need, it's more than just a workspace—it's your productivity
+              hub.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button asLink to="/work-cafe" size="lg" variant="primary">
+                Explore Work Café
+              </Button>
+              <Button asLink to="/booking" size="lg" variant="outline">
+                Book Your Spot
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Services Navigation Note */}
+      <section className="py-12 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center">
+            <p className="text-gray-600 mb-4">
+              <strong>Navigation Tip:</strong> For new customers, we recommend
+              starting with our Work Café service. It serves as the main entry
+              point to all our offerings.
+            </p>
+            <div className="inline-flex flex-wrap justify-center gap-2 mt-4">
+              <span className="bg-white px-4 py-2 rounded-lg border border-gray-200 font-medium">
+                Work Café (Main Entry Point)
+              </span>
+              <span className="text-gray-400">→</span>
+              <span className="bg-white px-4 py-2 rounded-lg border border-gray-200">
+                Learning Facilitation
+              </span>
+              <span className="text-gray-400">→</span>
+              <span className="bg-white px-4 py-2 rounded-lg border border-gray-200">
+                IT Support / Digital Access
+              </span>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -98,9 +184,14 @@ const Services: React.FC = () => {
             Let's discuss how our expertise can help you achieve your goals.
             Schedule a free consultation with our experts today.
           </p>
-          <Button asLink to="/contact" size="lg" variant="primary">
-            Get in Touch
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button asLink to="/contact" size="lg" variant="primary">
+              Get in Touch
+            </Button>
+            <Button asLink to="/work-cafe" size="lg" variant="outline">
+              Visit Work Café First
+            </Button>
+          </div>
         </div>
       </section>
     </>

@@ -1,6 +1,5 @@
-
 // Fix: Import React to provide the 'React' namespace for ElementType.
-import React from 'react';
+import React from "react";
 
 export interface Training {
   id: string;
@@ -47,6 +46,9 @@ export interface Service {
   title: string;
   description: string;
   icon: React.ElementType;
+  category?: string;
+  featured?: boolean;
+  learnMoreLink?: string;
 }
 
 export interface TeamMember {
@@ -58,24 +60,24 @@ export interface TeamMember {
 }
 
 export interface Registration {
-    id: string;
-    name: string;
-    email: string;
-    phone: string;
-    trainingId: string;
-    trainingTitle: string;
-    slotId: string;
-    registrationDate: string;
-    status: 'Pending' | 'Confirmed' | 'Cancelled';
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  trainingId: string;
+  trainingTitle: string;
+  slotId: string;
+  registrationDate: string;
+  status: "Pending" | "Confirmed" | "Cancelled";
 }
 
 export interface Payment {
-    id: string;
-    registrationId: string;
-    amount: number;
-    currency: string;
-    method: 'MTN Mobile Money' | 'Orange Money';
-    transactionRef: string;
-    paymentDate: string;
-    status: 'Success' | 'Failed' | 'Pending';
+  id: string;
+  registrationId: string;
+  amount: number;
+  currency: string;
+  method: "MTN Mobile Money" | "Orange Money";
+  transactionRef: string;
+  paymentDate: string;
+  status: "Success" | "Failed" | "Pending";
 }

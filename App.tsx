@@ -14,6 +14,7 @@ import CourseRegistration from "./src/pages/CourseRegistration";
 import Blog from "./src/pages/Blog";
 import BlogPostDetail from "./src/pages/BlogPostDetail";
 import Contact from "./src/pages/Contact";
+import WorkCafe from "./src/pages/WorkCafe";
 import NotFound from "./src/pages/NotFound";
 import PaymentSuccess from "./src/pages/PaymentSuccess";
 
@@ -68,6 +69,7 @@ const App: React.FC = () => {
             <Route path="blog" element={<Blog />} />
             <Route path="blog/:slug" element={<BlogPostDetail />} />
             <Route path="contact" element={<Contact />} />
+            <Route path="work-cafe" element={<WorkCafe />} />
           </Route>
 
           {/* Admin Login */}
