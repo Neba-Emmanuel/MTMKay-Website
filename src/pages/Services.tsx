@@ -140,7 +140,7 @@ const Services: React.FC = () => {
               <Button asLink to="/work-cafe" size="lg" variant="primary">
                 Explore Work Café
               </Button>
-              <Button asLink to="/booking" size="lg" variant="outline">
+              <Button asLink to="/contact" size="lg" variant="outline">
                 Book Your Spot
               </Button>
             </div>

@@ -6,7 +6,7 @@ export const servicesData: Service[] = [
     id: "work-cafe",
     title: "Work Café",
     description:
-      "A quiet, professional workspace with reliable internet and power—ideal for focused work, online learning, and remote jobs.",
+      "A quiet, professional workspace with reliable internet and power. Ideal for focused work, online learning, and remote jobs.",
     icon: Coffee,
     category: "work-cafe",
     featured: true,
