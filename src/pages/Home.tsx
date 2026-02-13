@@ -4,7 +4,19 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import Button from "../components/ui/Button";
 import Card from "../components/ui/Card";
-import { ArrowRight, Star, Users, Briefcase, BarChart } from "lucide-react";
+import {
+  ArrowRight,
+  Star,
+  Users,
+  Briefcase,
+  BarChart,
+  Coffee,
+  Wifi,
+  Zap,
+  Clock,
+  Calendar,
+  ChevronRight,
+} from "lucide-react";
 import { servicesData } from "../data/services";
 import { useApiRequest } from "../hooks/useApiRequest";
 
@@ -87,7 +99,7 @@ const Home: React.FC = () => {
       y: 0,
       opacity: 1,
       transition: {
-        type: "spring",
+        type: "spring" as const,
         stiffness: 100,
       },
     },
@@ -133,7 +145,7 @@ const Home: React.FC = () => {
         <title>MTMKay IT Training & Consultancy - Home</title>
         <meta
           name="description"
-          content="Welcome to MTMKay, a leading center for IT training and consultancy. Explore our courses in web development, data science, and more."
+          content="Welcome to MTMKay, a leading center for IT training and consultancy. Explore our Work Café, courses in web development, data science, and more."
         />
         <link rel="canonical" href="https://www.mtmkay.com/" />
       </Helmet>
@@ -160,8 +172,8 @@ const Home: React.FC = () => {
             </h1>
             <p className="mt-4 text-lg md:text-xl text-gray-200">
               Your gateway to a thriving career in IT. MTMKay offers
-              comprehensive IT consulting, cybersecurity, and certification
-              training to drive digital transformation.
+              comprehensive IT consulting, cybersecurity, certification
+              training, and a professional workspace at our Work Café.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
               <Button asLink to="/trainings" size="lg" variant="primary">
@@ -169,15 +181,101 @@ const Home: React.FC = () => {
               </Button>
               <Button
                 asLink
-                to="/services"
+                to="/work-cafe"
                 size="lg"
                 variant="outline"
                 className="border-white text-white hover:bg-white hover:text-primary-dark"
               >
-                Our Services
+                Visit Work Café
               </Button>
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Work Café Highlight Section - NEW */}
+      <section className="py-16 bg-gradient-to-r from-amber-50 to-orange-50 border-y border-amber-100">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="lg:w-2/3"
+            >
+              <div className="inline-flex items-center gap-2 bg-amber-100 px-4 py-2 rounded-full mb-4">
+                <Coffee size={16} className="text-amber-700" />
+                <span className="text-amber-700 font-semibold text-sm">
+                  NEW
+                </span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                Introducing Work Café
+              </h2>
+              <p className="text-lg text-gray-700 mb-4">
+                A quiet, professional workspace with reliable internet and
+                power—ideal for focused work, online learning, and remote jobs.
+              </p>
+              <div className="flex flex-wrap gap-4 mb-6">
+                <div className="flex items-center gap-2">
+                  <Wifi size={18} className="text-primary" />
+                  <span className="text-sm">100Mbps Starlink</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Zap size={18} className="text-primary" />
+                  <span className="text-sm">Power backup</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Clock size={18} className="text-primary" />
+                  <span className="text-sm">Flexible hours</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Calendar size={18} className="text-primary" />
+                  <span className="text-sm">Monthly plans</span>
+                </div>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button asLink to="/work-cafe" variant="primary">
+                  Learn More About Work Café
+                </Button>
+                <Button asLink to="/contact" variant="outline">
+                  Book Your Spot
+                </Button>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="lg:w-1/3 bg-white p-6 rounded-xl shadow-lg border border-amber-200"
+            >
+              <h3 className="text-xl font-bold mb-4">Flexible Pricing</h3>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center pb-2 border-b">
+                  <span className="text-gray-600">Hourly</span>
+                  <span className="font-bold">500 FCFA</span>
+                </div>
+                <div className="flex justify-between items-center pb-2 border-b">
+                  <span className="text-gray-600">Daily</span>
+                  <span className="font-bold">2,000 FCFA</span>
+                </div>
+                <div className="flex justify-between items-center pb-2 border-b">
+                  <span className="text-gray-600">Weekly</span>
+                  <span className="font-bold">10,000 FCFA</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600 font-semibold">Monthly</span>
+                  <span className="font-bold text-primary">30,000 FCFA</span>
+                </div>
+              </div>
+              <div className="mt-4 pt-4 border-t text-center">
+                <span className="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
+                  Best Value
+                </span>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
@@ -186,8 +284,9 @@ const Home: React.FC = () => {
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-3">Why Choose MTMKay?</h2>
           <p className="text-lg text-gray-600 mb-12 max-w-2xl mx-auto">
-            We are committed to providing the best learning experience and
-            tangible results for your career and business.
+            We are committed to providing the best learning experience,
+            professional workspace, and tangible results for your career and
+            business.
           </p>
           <motion.div
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
@@ -203,9 +302,9 @@ const Home: React.FC = () => {
                 text: "Learn from industry veterans with real-world experience.",
               },
               {
-                icon: Briefcase,
-                title: "Practical Curriculum",
-                text: "Hands-on projects that build a job-ready portfolio.",
+                icon: Coffee,
+                title: "Work Café Access",
+                text: "Professional workspace with high-speed internet and power backup.",
               },
               {
                 icon: Users,
@@ -231,6 +330,71 @@ const Home: React.FC = () => {
           </motion.div>
         </div>
       </section>
+
+      {/* Work Café + Learning Integration */}
+      {/* <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-gradient-to-br from-primary/10 to-blue-50 p-8 rounded-2xl"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="h-12 w-12 bg-primary rounded-lg flex items-center justify-center">
+                  <Coffee size={24} className="text-white" />
+                </div>
+                <h3 className="text-2xl font-bold">Work + Learn</h3>
+              </div>
+              <p className="text-gray-700 mb-6">
+                Combine your workspace needs with professional development.
+                <span className="font-semibold">
+                  {" "}
+                  Work Café subscribers get 10% off all IT training programs.
+                </span>
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Button asLink to="/work-cafe" variant="outline" size="sm">
+                  Explore Work Café
+                </Button>
+                <Button asLink to="/trainings" variant="outline" size="sm">
+                  View Trainings
+                </Button>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="bg-gradient-to-br from-amber-50 to-orange-50 p-8 rounded-2xl border border-amber-200"
+            >
+              <h3 className="text-2xl font-bold mb-2">Student Special</h3>
+              <p className="text-gray-700 mb-4">
+                Valid student ID? Get{" "}
+                <span className="font-bold text-primary">20% off</span> monthly
+                Work Café subscriptions.
+              </p>
+              <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
+                <span className="bg-white px-3 py-1 rounded-full">
+                  Valid ID required
+                </span>
+                <span className="bg-white px-3 py-1 rounded-full">
+                  Limited offer
+                </span>
+              </div>
+              <Link
+                to="/work-cafe"
+                className="font-semibold text-primary hover:underline inline-flex items-center"
+              >
+                Learn more <ChevronRight size={16} className="ml-1" />
+              </Link>
+            </motion.div>
+          </div>
+        </div>
+      </section> */}
 
       {/* Featured Courses Section */}
       <section className="py-20">
@@ -349,6 +513,51 @@ const Home: React.FC = () => {
         </div>
       </section>
 
+      {/* Work Café CTA Banner */}
+      {/* <section className="py-16 bg-amber-500">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="max-w-4xl mx-auto text-center text-white"
+          >
+            <Coffee size={48} className="mx-auto mb-4" />
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Need a Quiet Place to Work or Study?
+            </h2>
+            <p className="text-xl mb-8 text-white/90">
+              Visit our Work Café today. High-speed internet, reliable power,
+              and a professional environment.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                asLink
+                to="/work-cafe"
+                size="lg"
+                variant="secondary"
+                className="bg-white text-amber-700 hover:bg-gray-100"
+              >
+                Learn More About Work Café
+              </Button>
+              <Button
+                asLink
+                to="/contact"
+                size="lg"
+                variant="outline"
+                className="border-white text-white hover:bg-white/10"
+              >
+                Book Your Spot
+              </Button>
+            </div>
+            <p className="text-sm text-white/80 mt-6">
+              Starting at just 500 FCFA/hour • Monthly subscriptions from 30,000
+              FCFA
+            </p>
+          </motion.div>
+        </div>
+      </section> */}
+
       {/* Blog Preview Section */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
@@ -451,6 +660,39 @@ const Home: React.FC = () => {
               </Button>
             </div>
           )}
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="py-20 bg-primary-dark text-white">
+        <div className="container mx-auto px-4 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Ready to Start Your Journey?
+            </h2>
+            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+              Whether you need professional training, IT consulting, or a
+              workspace to focus, we're here for you.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button asLink to="/contact" size="lg" variant="primary">
+                Get in Touch
+              </Button>
+              <Button
+                asLink
+                to="/work-cafe"
+                size="lg"
+                variant="outline"
+                className="border-white text-white hover:bg-white/10"
+              >
+                Visit Work Café
+              </Button>
+            </div>
+          </motion.div>
         </div>
       </section>
     </>
