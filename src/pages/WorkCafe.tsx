@@ -30,9 +30,11 @@ import {
 import Card from "../components/ui/Card";
 import Button from "../components/ui/Button";
 import { Link, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const WorkCafe: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Handle hash links for smooth scrolling
   useEffect(() => {
@@ -46,6 +48,20 @@ const WorkCafe: React.FC = () => {
       }
     }
   }, [location]);
+
+  const handlePlanBooking = (plan: (typeof pricingPlans)[0]) => {
+    navigate("/contact", {
+      state: {
+        source: "work-cafe",
+        plan: {
+          name: plan.name,
+          price: plan.price,
+          period: plan.period,
+          features: plan.features,
+        },
+      },
+    });
+  };
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
@@ -249,8 +265,14 @@ const WorkCafe: React.FC = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
-                asLink
-                to="/contact"
+                onClick={() =>
+                  navigate("/contact", {
+                    state: {
+                      source: "work-cafe",
+                      plan: { name: "General Inquiry" },
+                    },
+                  })
+                }
                 size="lg"
                 variant="secondary"
                 className="bg-white text-primary hover:bg-gray-100"
@@ -407,8 +429,7 @@ const WorkCafe: React.FC = () => {
                     </ul>
 
                     <Button
-                      asLink
-                      to="/contact"
+                      onClick={() => handlePlanBooking(plan)}
                       variant={plan.buttonVariant}
                       className="w-full"
                     >

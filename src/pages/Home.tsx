@@ -19,8 +19,10 @@ import {
 } from "lucide-react";
 import { servicesData } from "../data/services";
 import { useApiRequest } from "../hooks/useApiRequest";
+import { useNavigate } from "react-router-dom";
 
 const Home: React.FC = () => {
+  const navigate = useNavigate();
   // Use the custom hook for trainings
   const {
     request: fetchTrainingsApi,
@@ -238,7 +240,17 @@ const Home: React.FC = () => {
                 <Button asLink to="/work-cafe" variant="primary">
                   Learn More About Work Café
                 </Button>
-                <Button asLink to="/contact" variant="outline">
+                <Button
+                  onClick={() =>
+                    navigate("/contact", {
+                      state: {
+                        source: "work-cafe",
+                        plan: { name: "General Inquiry" },
+                      },
+                    })
+                  }
+                  variant="outline"
+                >
                   Book Your Spot
                 </Button>
               </div>

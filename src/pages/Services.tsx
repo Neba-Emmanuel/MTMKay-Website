@@ -6,8 +6,10 @@ import Card from "../components/ui/Card";
 import Button from "../components/ui/Button";
 import { Link } from "react-router-dom";
 import { Coffee } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Services: React.FC = () => {
+  const navigate = useNavigate();
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -140,7 +142,18 @@ const Services: React.FC = () => {
               <Button asLink to="/work-cafe" size="lg" variant="primary">
                 Explore Work Café
               </Button>
-              <Button asLink to="/contact" size="lg" variant="outline">
+              <Button
+                onClick={() =>
+                  navigate("/contact", {
+                    state: {
+                      source: "work-cafe",
+                      plan: { name: "General Inquiry" },
+                    },
+                  })
+                }
+                size="lg"
+                variant="outline"
+              >
                 Book Your Spot
               </Button>
             </div>
