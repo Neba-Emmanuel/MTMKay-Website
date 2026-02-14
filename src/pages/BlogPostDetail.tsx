@@ -16,8 +16,11 @@ import { useApiRequest } from "../hooks/useApiRequest";
 
 const BlogPostDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
-  const { request, data: blog, loading, error } = useApiRequest();
-  const blogData = Array.isArray(blog) ? blog[0] : blog;
+  const { request: fetchBlog, data: blog, loading, error } = useApiRequest();
+
+  const { request: fetchBlogs } = useApiRequest();
+
+  const blogData = blog;
   const [relatedBlogs, setRelatedBlogs] = useState<any[]>([]);
 
   useEffect(() => {
@@ -28,22 +31,21 @@ const BlogPostDetail: React.FC = () => {
 
   const fetchBlogPost = async () => {
     try {
-      await request({
+      const blogResponse = await fetchBlog({
         method: "GET",
         url: `/blogs/${slug}`,
       });
 
-      // Also fetch other blogs for related posts
-      const allBlogs = await request({
+      const allBlogs = await fetchBlogs({
         method: "GET",
         url: "/blogs",
       });
 
       if (allBlogs && Array.isArray(allBlogs)) {
-        // Filter out current blog and get 3 random blogs
         const otherBlogs = allBlogs
           .filter((b) => b.slug !== slug && b.publishedAt !== null)
           .slice(0, 3);
+
         setRelatedBlogs(otherBlogs);
       }
     } catch (err) {
