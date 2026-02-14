@@ -246,7 +246,12 @@ const BlogPostDetail: React.FC = () => {
             {/* Blog Content */}
             {blogContent && (
               <div
-                className="prose prose-lg max-w-none mb-12"
+                className="prose prose-lg max-w-none mb-12
+                [&_p]:mb-4
+                [&_ul]:list-disc
+                [&_ul]:pl-6
+                [&_ol]:list-decimal
+                [&_ol]:pl-6"
                 dangerouslySetInnerHTML={{ __html: blogContent }}
               />
             )}
