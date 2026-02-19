@@ -329,41 +329,6 @@ const CourseRegistration: React.FC = () => {
                   </div>
                 ),
               },
-              {
-                label: "Bank Transfer",
-                content: (
-                  <div>
-                    <div className="bg-gray-50 p-4 rounded-md">
-                      <p className="font-medium mb-2">Bank Transfer Details:</p>
-                      <div className="space-y-1 text-sm">
-                        <p>
-                          <span className="font-medium">Bank:</span> Your Bank
-                          Name
-                        </p>
-                        <p>
-                          <span className="font-medium">Account:</span>{" "}
-                          1234567890
-                        </p>
-                        <p>
-                          <span className="font-medium">Account Name:</span>{" "}
-                          MTMKay IT Training
-                        </p>
-                        <p>
-                          <span className="font-medium">Reference:</span> MTM-
-                          {registrationId}
-                        </p>
-                        <p>
-                          <span className="font-medium">Amount:</span>{" "}
-                          {selectedTraining?.price?.toLocaleString()} XAF
-                        </p>
-                      </div>
-                    </div>
-                    <p className="text-sm text-gray-500 mt-2">
-                      Send proof of payment to: payments@mtmkay.com
-                    </p>
-                  </div>
-                ),
-              },
             ]}
           />
 
