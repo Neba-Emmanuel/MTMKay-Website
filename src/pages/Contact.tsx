@@ -372,9 +372,11 @@ const Contact: React.FC = () => {
                   />
                   <div>
                     <h3 className="font-semibold">Our Office</h3>
-                    <p className="text-gray-600">Southwest Region, Cameroon</p>
                     <p className="text-gray-600">
-                      Opposite Alaska Street Buea Road Kumba
+                      Kumba, Southwest Region, Cameroon
+                    </p>
+                    <p className="text-gray-600">
+                      Lido Street, First story building by the right
                     </p>
                   </div>
                 </div>

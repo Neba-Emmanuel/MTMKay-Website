@@ -102,8 +102,8 @@ const Footer: React.FC = () => {
                   (+237) 671 128 616
                 </a>
               </li>
-              <li>Southwest Region, Cameroon</li>
-              <li>Opposite Alaska Street Buea Road Kumba</li>
+              <li>Kumba, Southwest Region, Cameroon</li>
+              <li>Lido Street, First story building by the right</li>
             </ul>
           </div>
         </div>
