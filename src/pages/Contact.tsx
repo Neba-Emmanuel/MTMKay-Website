@@ -411,13 +411,13 @@ const Contact: React.FC = () => {
               </div>
               <div className="mt-8 rounded-lg overflow-hidden shadow-lg">
                 <iframe
-                  src="https://www.google.com/maps?q=4.628342802301623,9.453579782474664&z=16&output=embed"
-                  width="100%"
-                  height="350"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63629.15348671702!2d9.413887056918838!3d4.625808813506493!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xac5b1fb90c38193b%3A0xbbb472ad3cca5cde!2sMTMKay%20IT%20%26%20Training%20Center!5e0!3m2!1sen!2scm!4v1772698248633!5m2!1sen!2scm"
+                  width="600"
+                  height="450"
                   style={{ border: 0 }}
-                  loading="lazy"
                   allowFullScreen
-                  title="MTMKay Location"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
                 ></iframe>
               </div>
 
