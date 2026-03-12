@@ -32,13 +32,13 @@ const Footer: React.FC = () => {
               world-class training and consultancy.
             </p>
             <div className="mt-6 flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-white">
+              <a href="https://web.facebook.com/61582751706418/" target="_blank" className="text-gray-400 hover:text-white">
                 <Facebook />
               </a>
-              <a href="#" className="text-gray-400 hover:text-white">
+              {/* <a href="#" className="text-gray-400 hover:text-white">
                 <Twitter />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white">
+              </a> */}
+              <a href="https://www.linkedin.com/company/mtmkay/" target="_blank" className="text-gray-400 hover:text-white">
                 <Linkedin />
               </a>
               <a href="#" className="text-gray-400 hover:text-white">
