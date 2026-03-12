@@ -11,8 +11,7 @@ const Footer: React.FC = () => {
   ];
 
   const legalLinks = [
-    { name: "Privacy Policy", path: "#" },
-    { name: "Terms of Service", path: "#" },
+    { name: "Capabilities Statement", path: "/capabilities-statement" },
   ];
 
   return (

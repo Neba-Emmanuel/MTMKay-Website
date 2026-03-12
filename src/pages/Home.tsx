@@ -153,12 +153,21 @@ const Home: React.FC = () => {
       </Helmet>
 
       {/* Hero Section */}
-      <section className="relative bg-primary-dark text-white pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-primary to-gray-600 text-white pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.8'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+            }}
+          />
+        </div>
         <div className="absolute inset-0 bg-black opacity-40"></div>
         <div
           className="absolute top-0 right-0 w-1/2 h-full bg-cover bg-center"
           style={{
-            backgroundImage: `url('/Communication backgrounds set….jpeg')`,
+            backgroundImage: `url('/hero.jpeg')`,
             clipPath: "polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%)",
           }}
         ></div>
@@ -178,7 +187,7 @@ const Home: React.FC = () => {
               training, and a professional workspace at our Work Café.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-              <Button asLink to="/trainings" size="lg" variant="primary">
+              <Button asLink to="/trainings" size="lg" variant="secondary">
                 Explore Trainings
               </Button>
               <Button
@@ -186,7 +195,7 @@ const Home: React.FC = () => {
                 to="/work-cafe"
                 size="lg"
                 variant="outline"
-                className="border-white text-white hover:bg-white hover:text-primary-dark"
+                className="border-white text-white hover:bg-white/10 hover:text-primary-dark"
               >
                 Visit Work Café
               </Button>

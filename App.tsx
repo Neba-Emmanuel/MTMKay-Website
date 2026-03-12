@@ -17,6 +17,7 @@ import Contact from "./src/pages/Contact";
 import WorkCafe from "./src/pages/WorkCafe";
 import NotFound from "./src/pages/NotFound";
 import PaymentSuccess from "./src/pages/PaymentSuccess";
+import Capabilities from "./src/pages/CapabilitiesStatement";
 
 // Admin Pages
 import AdminLogin from "./src/pages/admin/Login";
@@ -70,6 +71,7 @@ const App: React.FC = () => {
             <Route path="blog/:slug" element={<BlogPostDetail />} />
             <Route path="contact" element={<Contact />} />
             <Route path="work-cafe" element={<WorkCafe />} />
+            <Route path="capabilities-statement" element={<Capabilities />} />
           </Route>
 
           {/* Admin Login */}
