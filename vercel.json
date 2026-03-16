@@ -19,5 +19,12 @@
                 }
             ]
         }
+    ],
+    "redirects": [
+        {
+            "source": "/about-us",
+            "destination": "/about",
+            "permanent": true
+        }
     ]
 }
