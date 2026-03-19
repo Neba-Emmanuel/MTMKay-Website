@@ -165,7 +165,7 @@ const Home: React.FC = () => {
         </div>
         <div className="absolute inset-0 bg-black opacity-40"></div>
         <div
-          className="absolute top-0 right-0 w-1/2 h-full bg-cover bg-center"
+          className="hidden lg:block absolute top-0 right-0 w-1/2 h-full bg-cover bg-center"
           style={{
             backgroundImage: `url('/hero.jpeg')`,
             clipPath: "polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%)",
