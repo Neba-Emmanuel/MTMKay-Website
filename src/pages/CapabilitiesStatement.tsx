@@ -212,7 +212,7 @@ const Capabilities = () => {
               <a
                 href="#core-competencies"
                 onClick={() => scrollToCoreCompetencies}
-                className="inline-flex items-center gap-2 text-white border border-white hover:bg-white/10 p-4 rounded-lg transition-colors"
+                className="text-white border border-white hover:bg-white/10 p-4 rounded-lg transition-colors"
               >
                 Explore Competencies
               </a>
