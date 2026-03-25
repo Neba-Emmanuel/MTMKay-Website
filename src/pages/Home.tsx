@@ -460,6 +460,8 @@ const Home: React.FC = () => {
                         src={course.imageUrl}
                         alt={course.title}
                         className="w-full h-48 object-cover"
+                        loading="lazy"
+                        decoding="async"
                         onError={(e) => {
                           (e.target as HTMLImageElement).src =
                             "https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80";
@@ -618,6 +620,8 @@ const Home: React.FC = () => {
                       src={post.imageUrl}
                       alt={post.title}
                       className="w-full h-48 object-cover"
+                      loading="lazy"
+                      decoding="async"
                       onError={(e) => {
                         (e.target as HTMLImageElement).src =
                           "https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80";

@@ -170,6 +170,8 @@ const Trainings: React.FC = () => {
                             src={training.imageUrl}
                             alt={training.title}
                             className="w-full object-cover rounded-t-lg"
+                            loading="lazy"
+                            decoding="async"
                           />
                         </div>
                       </div>
@@ -180,6 +182,8 @@ const Trainings: React.FC = () => {
                             src={"/learning.jpg"}
                             alt={"MTMKay Training"}
                             className="w-full object-cover rounded-t-lg"
+                            loading="lazy"
+                            decoding="async"
                           />
                         </div>
                       </div>

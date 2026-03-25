@@ -16,5 +16,17 @@ export default defineConfig(({ mode }) => {
         "@": path.resolve(__dirname, "."),
       },
     },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vendor: ["react", "react-dom", "react-router-dom"],
+            animations: ["framer-motion"],
+            editor: ["@tiptap/react", "@tiptap/starter-kit", "@tiptap/extension-link"],
+          },
+        },
+      },
+      chunkSizeWarningLimit: 1000,
+    },
   };
 });

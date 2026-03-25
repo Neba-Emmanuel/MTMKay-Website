@@ -92,6 +92,8 @@ const About: React.FC = () => {
                 src="/learning.jpg"
                 alt="Team working"
                 className="rounded-lg shadow-xl"
+                loading="lazy"
+                decoding="async"
               />
             </motion.div>
             <motion.div
@@ -178,6 +180,8 @@ const About: React.FC = () => {
                       src="/limps-ltd.jpeg"
                       alt="LIMPS LTD Logo"
                       className="max-w-full max-h-full object-contain rounded-full"
+                      loading="lazy"
+                      decoding="async"
                     />
                   </div>
                   <h3 className="text-2xl font-bold text-center mb-2">
@@ -210,6 +214,8 @@ const About: React.FC = () => {
                         src="/team/lucien-fonyuy.png"
                         alt="Yilareng Lucien Fonyuy"
                         className="w-full h-full object-cover border-2 border-green-500 rounded-full"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </div>
                   </div>
@@ -305,6 +311,8 @@ const About: React.FC = () => {
                       src={partner.logo}
                       alt={partner.alt}
                       className="max-w-full max-h-full object-contain"
+                      loading="lazy"
+                      decoding="async"
                       onError={(e) => {
                         if (partner.name === "LIMPS LTD") {
                           (e.target as HTMLImageElement).style.display = "none";
@@ -441,17 +449,19 @@ const About: React.FC = () => {
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {teamData.map((member) => (
-              <Card key={member.id} className="text-center py-6">
-                <img
-                  src={member.imageUrl}
-                  alt={member.name}
-                  className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
-                />
-                <h3 className="text-xl font-bold">{member.name}</h3>
-                <p className="text-primary font-semibold mb-2">{member.role}</p>
-              </Card>
-            ))}
+              {teamData.map((member) => (
+                <Card key={member.id} className="text-center py-6">
+                  <img
+                    src={member.imageUrl}
+                    alt={member.name}
+                    className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <h3 className="text-xl font-bold">{member.name}</h3>
+                  <p className="text-primary font-semibold mb-2">{member.role}</p>
+                </Card>
+              ))}
           </div>
         </div>
       </section>

@@ -126,6 +126,8 @@ const Blog: React.FC = () => {
                           }
                           alt={publishedBlogs[0].title}
                           className="w-full h-64 md:h-full object-cover"
+                          loading="lazy"
+                          decoding="async"
                           onError={(e) => {
                             (e.target as HTMLImageElement).src =
                               "https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
@@ -188,6 +190,8 @@ const Blog: React.FC = () => {
                         }
                         alt={post.title}
                         className="w-full h-48 object-cover rounded-t-lg"
+                        loading="lazy"
+                        decoding="async"
                         onError={(e) => {
                           (e.target as HTMLImageElement).src =
                             "https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";

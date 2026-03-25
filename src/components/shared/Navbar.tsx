@@ -41,7 +41,7 @@ const Navbar: React.FC = () => {
               className="flex items-center space-x-2 text-2xl font-extrabold text-primary"
             >
               {/* <Briefcase size={28} /> */}
-              <img src="/mtmkay_logo.png" width="68" height="68" />
+              <img src="/mtmkay_logo.png" width="68" height="68" alt="MTMKay" loading="eager" />
               <span>MTMKay</span>
             </Link>
           </div>
