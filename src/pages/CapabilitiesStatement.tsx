@@ -28,14 +28,20 @@ import {
   ArrowRight,
   Download,
   Printer,
+  Building2,
+  Calendar,
+  Flag,
 } from "lucide-react";
 import Button from "../components/ui/Button";
 import Card from "../components/ui/Card";
 
 const Capabilities = () => {
+  const contentRef = useRef<HTMLDivElement>(null);
+
   const handleDownloadPDF = () => {
     window.print();
   };
+
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
@@ -143,7 +149,6 @@ const Capabilities = () => {
     "721199",
   ];
 
-  // Function to handle smooth scroll to core competencies section
   const scrollToCoreCompetencies = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     const element = document.getElementById("core-competencies");
@@ -160,432 +165,441 @@ const Capabilities = () => {
         </title>
         <meta
           name="description"
-          content="MTMKay is a Service-Disabled Veteran-Owned Small Business (SDVOSB) delivering secure, reliable IT and cybersecurity solutions for government and commercial clients. ACAS, Nessus, DoD certified."
+          content="MTMKay is a Service-Disabled Veteran-Owned Small Business (SDVOSB) delivering secure, reliable IT and cybersecurity solutions for government and commercial clients."
         />
         <meta
           name="keywords"
           content="SDVOSB, IT consulting, cybersecurity, ACAS, Nessus, DoD, veteran-owned, government contracting"
         />
-        <link
-          rel="canonical"
-          href="https://mtmkay.com/capabilities-statement"
-        />
+        <link rel="canonical" href="https://mtmkay.com/capabilities-statement" />
+        
+        {/* Print Styles for PDF */}
+        <style>{`
+          @media print {
+            body {
+              background: white;
+              font-size: 12pt;
+            }
+            .no-print {
+              display: none !important;
+            }
+            .print-only {
+              display: block !important;
+            }
+            .print-break {
+              page-break-before: avoid;
+              page-break-inside: avoid;
+            }
+            .print-full-width {
+              width: 100% !important;
+              max-width: 100% !important;
+            }
+            a {
+              text-decoration: none;
+              color: black;
+            }
+            .bg-gray-50 {
+              background-color: #f9fafb !important;
+              -webkit-print-color-adjust: exact;
+              print-color-adjust: exact;
+            }
+            .bg-primary-dark {
+              background-color: #1e293b !important;
+              -webkit-print-color-adjust: exact;
+              print-color-adjust: exact;
+            }
+            .text-white {
+              color: white !important;
+              -webkit-print-color-adjust: exact;
+              print-color-adjust: exact;
+            }
+            .shadow-lg, .shadow-xl, .shadow-sm {
+              box-shadow: none !important;
+            }
+            .border {
+              border: 1px solid #e5e7eb !important;
+            }
+            .rounded-lg, .rounded-xl, .rounded-2xl {
+              border-radius: 0.5rem !important;
+            }
+            @page {
+              size: letter;
+              margin: 0.75in;
+            }
+            h1, h2, h3, h4 {
+              page-break-after: avoid;
+            }
+            p, li, .card {
+              page-break-inside: avoid;
+            }
+          }
+        `}</style>
       </Helmet>
 
-      {/* Hero Section - Enhanced */}
-      <section className="relative bg-gradient-to-br from-primary-dark to-gray-900 text-white overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-            }}
-          />
-        </div>
+      <div ref={contentRef} className="capabilities-content">
+        {/* Hero Section */}
+        <section className="relative bg-gradient-to-br from-primary-dark to-gray-900 text-white overflow-hidden print-break">
+          {/* Background Pattern */}
+          <div className="absolute inset-0 opacity-10">
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+              }}
+            />
+          </div>
+          <div className="absolute inset-0 bg-black/10" />
+          <div className="container mx-auto px-4 py-24 md:py-32 relative">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="max-w-4xl mx-auto text-center"
+            >
+              {/* Company Logo/Header for Print */}
+              <div className="print-only hidden mb-8 text-center">
+                <h1 className="text-3xl font-bold">MTMKay</h1>
+                <p className="text-white-600 mt-2">IT & Cybersecurity Solutions</p>
+                <hr className="my-4 border-gray-300" />
+              </div>
 
-        <div className="container mx-auto px-4 py-24 md:py-32 relative">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto text-center"
-          >
-            {/* <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
-              <Award size={16} />
-              <span className="text-sm font-medium">
-                Service-Disabled Veteran-Owned Small Business
-              </span>
-            </div> */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-              Capabilities Statement
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 text-gray-200 max-w-3xl mx-auto">
-              Delivering secure, reliable IT and cybersecurity solutions
-              strengthened by military precision and DoD expertise.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                asLink
-                to="/contact"
-                size="lg"
-                variant="secondary"
-                className="text-white hover:bg-gray-100"
-              >
-                Request Capabilities Package
-              </Button>
-              <button
-                onClick={handleDownloadPDF}
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-colors"
-              >
-                <Download size={20} />
-                Download PDF
-              </button>
-            </div>
-
-            {/* SDVOSB Badge */}
-            <div className="mt-12 flex justify-center">
-              <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full">
-                <Star size={18} className="text-yellow-400" />
-                <span className="text-sm font-medium">
-                  SDVOSB Certified • CAGE: 9V6S7 • UEI: N6TVP1A8K7J1
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+                Capabilities Statement
+              </h1>
+              <p className="text-lg md:text-xl mb-6 text-gray-200 max-w-3xl mx-auto">
+                Delivering secure, reliable IT and cybersecurity solutions
+                strengthened by military precision and DoD expertise.
+              </p>
+              
+              {/* SDVOSB Badge */}
+              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
+                <Flag size={16} className="text-yellow-400" />
+                <span className="text-xs md:text-sm font-medium">
+                  Service-Disabled Veteran-Owned Small Business (SDVOSB)
                 </span>
               </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
 
-      {/* Company Overview - Enhanced */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-5 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="lg:col-span-3"
-            >
-              <span className="text-primary font-semibold text-sm uppercase tracking-wider">
-                Who We Are
-              </span>
-              <h2 className="text-3xl md:text-4xl font-bold mt-2 mb-6">
-                Company Overview
-              </h2>
-              <div className="prose prose-lg text-gray-600 space-y-4">
-                <p>
-                  <span className="font-bold text-gray-900">MTMKay</span> is a
-                  Service-Disabled Veteran-Owned Small Business (SDVOSB)
-                  providing reliable IT and cybersecurity support grounded in
-                  hands-on U.S. Navy experience. With a foundation in aviation
-                  maintenance oversight, enterprise IT environments, and quality
-                  assurance, we deliver structured and dependable technology
-                  solutions.
-                </p>
-                <p>
-                  Based in Florida, MTMKay supports organizations with secure,
-                  efficient technology services with a strong focus on accuracy,
-                  accountability, and mission alignment. Through innovation and
-                  strong industry partnerships, we help organizations modernize,
-                  improve performance, and adapt to evolving technology demands.
-                </p>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="lg:col-span-2"
-            >
-              <div className="bg-gradient-to-br from-primary/10 to-blue-50 p-8 rounded-2xl">
-                <div className="bg-white rounded-xl p-6 shadow-lg">
-                  <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-                    <Award size={20} className="text-primary" />
-                    SDVOSB Certification
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center pb-3 border-b">
-                      <span className="text-gray-600">UEI</span>
-                      <span className="font-mono font-semibold">
-                        N6TVP1A8K7J1
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center pb-3 border-b">
-                      <span className="text-gray-600">CAGE Code</span>
-                      <span className="font-mono font-semibold">9V6S7</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Business Type</span>
-                      <span className="font-semibold text-primary">SDVOSB</span>
-                    </div>
-                  </div>
+              {/* Quick Info Grid for Print */}
+              <div className="print-only hidden mt-8 grid grid-cols-3 gap-4 text-center">
+                <div>
+                  <p className="text-xs font-semibold">CAGE Code</p>
+                  <p className="text-sm font-mono">9V6S7</p>
                 </div>
+                <div>
+                  <p className="text-xs font-semibold">UEI</p>
+                  <p className="text-sm font-mono">N6TVP1A8K7J1</p>
+                </div>
+                <div>
+                  <p className="text-xs font-semibold">Business Type</p>
+                  <p className="text-sm">SDVOSB</p>
+                </div>
+              </div>
+
+              <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center no-print">
+                <Button
+                  asLink
+                  to="/contact"
+                  size="lg"
+                  variant="secondary"
+                  className="bg-white text-primary hover:bg-gray-100"
+                >
+                  Request Capabilities Package
+                </Button>
+                <a
+                  href="#download"
+                  onClick={handleDownloadPDF}
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-colors"
+                >
+                  Download PDF
+                </a>
               </div>
             </motion.div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Core Competencies - Enhanced */}
-      <section id="core-competencies" className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center max-w-3xl mx-auto mb-16"
-          >
-            <span className="text-primary font-semibold text-sm uppercase tracking-wider">
-              What We Do
-            </span>
-            <h2 className="text-3xl md:text-4xl font-bold mt-2 mb-4">
-              Core Competencies
-            </h2>
-            <p className="text-lg text-gray-600">
-              Comprehensive IT and cybersecurity capabilities backed by DoD
-              expertise
-            </p>
-          </motion.div>
+        {/* Company Overview */}
+        <section className="py-12 md:py-16 print-break">
+          <div className="container mx-auto px-4">
+            <div className="grid lg:grid-cols-3 gap-8">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                className="lg:col-span-2"
+              >
+                <span className="text-primary font-semibold text-sm uppercase tracking-wider">
+                  Who We Are
+                </span>
+                <h2 className="text-2xl md:text-3xl font-bold mt-2 mb-4">
+                  Company Overview
+                </h2>
+                <div className="prose prose-sm md:prose-lg text-gray-600 space-y-3">
+                  <p>
+                    <span className="font-bold text-gray-900">MTMKay</span> is a
+                    Service-Disabled Veteran-Owned Small Business (SDVOSB)
+                    providing reliable IT and cybersecurity support grounded in
+                    hands-on U.S. Navy experience. With a foundation in aviation
+                    maintenance oversight, enterprise IT environments, and quality
+                    assurance, we deliver structured and dependable technology
+                    solutions.
+                  </p>
+                  <p>
+                    Based in Florida, MTMKay supports organizations with secure,
+                    efficient technology services with a strong focus on accuracy,
+                    accountability, and mission alignment. Through innovation and
+                    strong industry partnerships, we help organizations modernize,
+                    improve performance, and adapt to evolving technology demands.
+                  </p>
+                </div>
 
-          <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
-            {competencies.map((competency, index) => (
-              <motion.div key={index} variants={fadeInUp}>
-                <Card className="h-full p-8 hover:shadow-lg transition-shadow">
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="flex-shrink-0">
-                      <div className="h-12 w-12 bg-primary/10 text-primary rounded-lg flex items-center justify-center">
-                        <competency.icon size={24} />
-                      </div>
-                    </div>
-                    <h3 className="text-xl font-bold">{competency.category}</h3>
+                {/* Key Stats */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                  <div className="border-l-4 border-primary pl-3">
+                    <div className="text-2xl font-bold text-primary">10+</div>
+                    <div className="text-xs text-gray-600">Years Experience</div>
                   </div>
-                  <ul className="space-y-3">
+                  <div className="border-l-4 border-primary pl-3">
+                    <div className="text-2xl font-bold text-primary">100%</div>
+                    <div className="text-xs text-gray-600">Mission Focused</div>
+                  </div>
+                  <div className="border-l-4 border-primary pl-3">
+                    <div className="text-2xl font-bold text-primary">TS/SCI</div>
+                    <div className="text-xs text-gray-600">Clearance Ready</div>
+                  </div>
+                  <div className="border-l-4 border-primary pl-3">
+                    <div className="text-2xl font-bold text-primary">SDVOSB</div>
+                    <div className="text-xs text-gray-600">Certified</div>
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+              >
+                <div className="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                  <h3 className="font-bold text-lg mb-3 flex items-center gap-2">
+                    <Building2 size={18} className="text-primary" />
+                    Business Information
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center pb-2 border-b">
+                      <span className="text-gray-600 text-sm">UEI</span>
+                      <span className="font-mono font-semibold text-sm">
+                        N6TVP1A8K7J1
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center pb-2 border-b">
+                      <span className="text-gray-600 text-sm">CAGE Code</span>
+                      <span className="font-mono font-semibold text-sm">9V6S7</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600 text-sm">Business Type</span>
+                      <span className="font-semibold text-primary text-sm">SDVOSB</span>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* Core Competencies */}
+        <section id="core-competencies" className="py-12 md:py-16 bg-gray-50 print-break">
+          <div className="container mx-auto px-4">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center max-w-3xl mx-auto mb-8 md:mb-12"
+            >
+              <span className="text-primary font-semibold text-sm uppercase tracking-wider">
+                What We Do
+              </span>
+              <h2 className="text-2xl md:text-3xl font-bold mt-2 mb-3">
+                Core Competencies
+              </h2>
+              <p className="text-gray-600">
+                Comprehensive IT and cybersecurity capabilities backed by DoD
+                expertise
+              </p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {competencies.map((competency, index) => (
+                <div key={index} className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="h-10 w-10 bg-primary/10 text-primary rounded-lg flex items-center justify-center">
+                      <competency.icon size={20} />
+                    </div>
+                    <h3 className="text-lg font-bold">{competency.category}</h3>
+                  </div>
+                  <ul className="space-y-2">
                     {competency.items.map((item, idx) => (
                       <li key={idx} className="flex items-start gap-2">
-                        <CheckCircle
-                          size={16}
-                          className="text-green-500 flex-shrink-0 mt-1"
-                        />
+                        <CheckCircle size={14} className="text-green-500 flex-shrink-0 mt-0.5" />
                         <span className="text-gray-600 text-sm">{item}</span>
                       </li>
                     ))}
                   </ul>
-                </Card>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
-      {/* Differentiators - Enhanced */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center max-w-3xl mx-auto mb-16"
-          >
-            <span className="text-primary font-semibold text-sm uppercase tracking-wider">
-              Why Choose Us
-            </span>
-            <h2 className="text-3xl md:text-4xl font-bold mt-2 mb-4">
-              Our Differentiators
-            </h2>
-            <p className="text-lg text-gray-600">
-              What sets MTMKay apart in the federal and commercial marketplace
-            </p>
-          </motion.div>
-
-          <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="grid md:grid-cols-2 gap-8"
-          >
-            {differentiators.map((item, index) => {
-              const colorClasses = {
-                blue: "bg-blue-100 text-blue-600",
-                green: "bg-green-100 text-green-600",
-                purple: "bg-purple-100 text-purple-600",
-                red: "bg-red-100 text-red-600",
-              };
-
-              return (
-                <motion.div key={index} variants={fadeInUp}>
-                  <Card className="p-8 h-full flex items-start gap-6 hover:shadow-lg transition-shadow">
-                    <div
-                      className={`flex-shrink-0 h-14 w-14 rounded-xl flex items-center justify-center ${colorClasses[item.color as keyof typeof colorClasses]}`}
-                    >
-                      <item.icon size={28} />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                      <p className="text-gray-600">{item.description}</p>
-                    </div>
-                  </Card>
-                </motion.div>
-              );
-            })}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Certifications & NAICS - Enhanced */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12">
-            {/* Certifications */}
+        {/* Differentiators */}
+        <section className="py-12 md:py-16 print-break">
+          <div className="container mx-auto px-4">
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
+              className="text-center max-w-3xl mx-auto mb-8 md:mb-12"
             >
-              <h2 className="text-3xl font-bold mb-8 flex items-center gap-3">
-                <Award size={28} className="text-primary" />
-                Licenses & Certifications
+              <span className="text-primary font-semibold text-sm uppercase tracking-wider">
+                Why Choose Us
+              </span>
+              <h2 className="text-2xl md:text-3xl font-bold mt-2 mb-3">
+                Our Differentiators
               </h2>
-              <div className="grid sm:grid-cols-2 gap-4">
-                {certifications.map((cert, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-3 p-4 bg-white rounded-lg shadow-sm"
-                  >
-                    <div className="flex-shrink-0">
-                      <cert.icon size={20} className="text-primary" />
-                    </div>
-                    <span className="text-gray-700 font-medium">
-                      {cert.name}
-                    </span>
-                  </div>
-                ))}
-              </div>
+              <p className="text-gray-600">
+                What sets MTMKay apart in the federal and commercial marketplace
+              </p>
             </motion.div>
 
-            {/* Government Information */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-3xl font-bold mb-8 flex items-center gap-3">
-                <div className="h-10 w-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                  <FileText size={24} className="text-primary" />
-                </div>
-                <span>Government Information</span>
-              </h2>
+            <div className="grid md:grid-cols-2 gap-6">
+              {differentiators.map((item, index) => {
+                const colorClasses = {
+                  blue: "bg-blue-100 text-blue-600",
+                  green: "bg-green-100 text-green-600",
+                  purple: "bg-purple-100 text-purple-600",
+                  red: "bg-red-100 text-red-600",
+                };
 
-              <Card className="p-0 overflow-hidden">
-                {/* Content */}
-                <div className="p-6 space-y-6">
-                  {/* UEI & CAGE - Side by side */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-gray-50 p-4 rounded-lg border border-gray-100 hover:border-primary/20 transition-colors">
-                      <div className="flex items-center gap-3 mb-2">
-                        {/* <div className="h-8 w-8 bg-blue-100 rounded-full flex items-center justify-center">
-                          <span className="text-blue-600 font-bold text-sm">
-                            UEI
-                          </span>
-                        </div> */}
-                        <span className="text-sm font-medium text-gray-500">
-                          Unique Entity ID
-                        </span>
-                      </div>
-                      <div className="font-mono text-xl font-bold text-gray-900 tracking-wider bg-white p-2 rounded border border-gray-200">
-                        N6TVP1A8K7J1
-                      </div>
-                      <p className="text-xs text-gray-400 mt-2">
-                        SAM Registered • Active
-                      </p>
+                return (
+                  <div key={index} className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex items-start gap-4">
+                    <div
+                      className={`flex-shrink-0 h-12 w-12 rounded-xl flex items-center justify-center ${colorClasses[item.color as keyof typeof colorClasses]}`}
+                    >
+                      <item.icon size={22} />
                     </div>
+                    <div>
+                      <h3 className="text-lg font-bold mb-1">{item.title}</h3>
+                      <p className="text-gray-600 text-sm">{item.description}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
 
-                    <div className="bg-gray-50 p-4 rounded-lg border border-gray-100 hover:border-primary/20 transition-colors">
-                      <div className="flex items-center gap-3 mb-2">
-                        {/* <div className="h-8 w-8 bg-purple-100 rounded-full flex items-center justify-center">
-                          <span className="text-purple-600 font-bold text-sm">
-                            CAGE
-                          </span>
-                        </div> */}
-                        <span className="text-sm font-medium text-gray-500">
-                          Commercial & Government Entity
-                        </span>
-                      </div>
-                      <div className="font-mono text-xl font-bold text-gray-900 tracking-wider bg-white p-2 rounded border border-gray-200">
-                        9V6S7
-                      </div>
-                      <p className="text-xs text-gray-400 mt-2">DLA Verified</p>
+        {/* Certifications & NAICS */}
+        <section className="py-12 md:py-16 bg-gray-50 print-break">
+          <div className="container mx-auto px-4">
+            <div className="grid lg:grid-cols-2 gap-8">
+              {/* Certifications */}
+              <div>
+                <h2 className="text-2xl md:text-3xl font-bold mb-6 flex items-center gap-2">
+                  <Award size={24} className="text-primary" />
+                  Licenses & Certifications
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {certifications.map((cert, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center gap-3 p-3 bg-white rounded-lg shadow-sm"
+                    >
+                      <cert.icon size={18} className="text-primary flex-shrink-0" />
+                      <span className="text-gray-700 text-sm font-medium">
+                        {cert.name}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Government Information */}
+              <div>
+                <h2 className="text-2xl md:text-3xl font-bold mb-6 flex items-center gap-2">
+                  <FileText size={24} className="text-primary" />
+                  Government Information
+                </h2>
+
+                <div className="bg-white rounded-xl p-6 shadow-sm">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <p className="text-xs text-gray-500 mb-1">Unique Entity ID (UEI)</p>
+                      <p className="font-mono font-bold text-lg">N6TVP1A8K7J1</p>
+                      <p className="text-xs text-gray-400 mt-1">SAM Registered • Active</p>
+                    </div>
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <p className="text-xs text-gray-500 mb-1">CAGE Code</p>
+                      <p className="font-mono font-bold text-lg">9V6S7</p>
+                      <p className="text-xs text-gray-400 mt-1">DLA Verified</p>
                     </div>
                   </div>
 
-                  {/* NAICS Codes */}
                   <div>
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-2">
-                        {/* <div className="h-6 w-6 bg-green-100 rounded-full flex items-center justify-center">
-                          <span className="text-green-600 font-bold text-xs">
-                            NAICS
-                          </span>
-                        </div> */}
-                        <h4 className="font-bold text-gray-700">NAICS Codes</h4>
-                      </div>
-                      <span className="text-xs bg-primary/10 text-primary px-3 py-1 rounded-full font-medium">
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="font-bold text-gray-700">NAICS Codes</h4>
+                      <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
                         {naicsCodes.length} Codes
                       </span>
                     </div>
-
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                       {naicsCodes.map((code, index) => (
-                        <div key={index} className="group relative">
-                          <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                          <div className="relative bg-white border border-gray-200 hover:border-primary rounded-lg p-2 transition-all hover:shadow-md">
-                            <div className="font-mono text-sm font-bold text-primary text-center">
-                              {code}
-                            </div>
-                          </div>
+                        <div key={index} className="bg-gray-50 border border-gray-200 rounded-lg p-2 text-center">
+                          <span className="font-mono text-sm font-bold text-primary">
+                            {code}
+                          </span>
                         </div>
                       ))}
                     </div>
+                    <p className="text-xs text-gray-500 mt-3">
+                      Full range of IT consulting, cybersecurity, training, and professional services
+                    </p>
                   </div>
                 </div>
-              </Card>
-            </motion.div>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Notable Clients */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="max-w-5xl mx-auto text-center"
-          >
-            <h2 className="text-3xl font-bold mb-4 flex items-center justify-center gap-3">
-              <Users size={28} className="text-primary" />
-              Notable Clientele
-            </h2>
+        {/* Notable Clients */}
+        <section className="py-12 md:py-16 print-break">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="text-2xl md:text-3xl font-bold mb-4 flex items-center justify-center gap-2">
+                <Users size={24} className="text-primary" />
+                Notable Clientele
+              </h2>
+              <p className="text-gray-600 mb-8">
+                Proud to serve and support mission-critical operations
+              </p>
 
-            <p className="text-gray-600 mb-12 max-w-2xl mx-auto">
-              Proud to serve and support mission-critical operations
-            </p>
-
-            <div className="grid md:grid-cols-2 gap-8">
-              <Card className="p-8 hover:shadow-lg transition-shadow">
-                <div className="flex items-center gap-5">
-                  <div className="h-16 w-16 bg-primary/10 rounded-full flex items-center justify-center">
-                    <img
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                  <div className="flex items-center gap-4">
+                    <div className="h-14 w-14 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                      <img
                       src="/netc.webp"
                       alt="NETC Logo"
                       className="w-12 h-12 rounded-full"
                     />
-                  </div>
-
-                  <div className="text-left">
-                    <p className="text-lg font-bold">
-                      NETC – Pensacola, Florida
-                    </p>
-                    <p className="text-gray-600 text-sm">
-                      Naval Education and Training Command
-                    </p>
-                    <p className="text-gray-500 text-sm mt-1">
-                      IT Support & Cybersecurity Readiness
-                    </p>
+                    </div>
+                    <div className="text-left">
+                      <p className="font-bold text-lg">NETC Pensacola</p>
+                      <p className="text-gray-600 text-sm">Naval Education and Training Command</p>
+                      <p className="text-gray-500 text-xs mt-1">IT Support & Cybersecurity Readiness</p>
+                    </div>
                   </div>
                 </div>
-              </Card>
 
               {/* Placeholder for future clients */}
-              <Card className="p-8 border-dashed border-2 border-gray-200 bg-white">
+              <div className="p-8 border-dashed border-2 border-gray-200 bg-white rounded-xl">
                 <div className="flex items-center gap-5">
                   <div className="h-16 w-16 bg-gray-100 rounded-full flex items-center justify-center">
                     <Users size={30} className="text-gray-400" />
@@ -600,121 +614,103 @@ const Capabilities = () => {
                     </p>
                   </div>
                 </div>
-              </Card>
+              </div>
+              </div>
             </div>
-          </motion.div>
+          </div>
+        </section>
+
+        {/* Contact Section */}
+        <section className="py-12 md:py-16 bg-primary-dark text-white print-break">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-8">
+                <h2 className="text-2xl md:text-3xl font-bold mb-3">
+                  Ready to Partner with MTMKay?
+                </h2>
+                <p className="text-gray-200">
+                  Contact our government POC to discuss your requirements
+                </p>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+                  <div className="flex items-center gap-3">
+                    <UserCheck size={20} className="text-white flex-shrink-0" />
+                    <div>
+                      <p className="text-xs text-white/70">Government POC</p>
+                      <p className="font-semibold">Michael Mbu</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+                  <div className="flex items-center gap-3">
+                    <Phone size={20} className="text-white flex-shrink-0" />
+                    <div>
+                      <p className="text-xs text-white/70">Phone</p>
+                      <a href="tel:+16122241176" className="hover:text-white">+1 (612) 224-1176</a>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+                  <div className="flex items-center gap-3">
+                    <Mail size={20} className="text-white flex-shrink-0" />
+                    <div>
+                      <p className="text-xs text-white/70">Email</p>
+                      <a href="mailto:mbu.michael@mtmkay.com" className="text-sm hover:text-white break-all">
+                        mbu.michael@mtmkay.com
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+                  <div className="flex items-center gap-3">
+                    <Globe size={20} className="text-white flex-shrink-0" />
+                    <div>
+                      <p className="text-xs text-white/70">Website</p>
+                      <a href="https://mtmkay.com" target="_blank" rel="noopener noreferrer" className="hover:text-white">
+                        mtmkay.com
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="text-center mt-8 no-print">
+                <Button
+                  asLink
+                  to="/contact"
+                  size="lg"
+                  variant="secondary"
+                  className="bg-white text-primary hover:bg-gray-100"
+                >
+                  Request Full Capabilities Package
+                </Button>
+              </div>
+
+              {/* Footer for Print */}
+              <div className="print-only hidden text-center mt-8 pt-4 border-t border-white/20">
+                <p className="text-xs text-white/60">
+                  MTMKay is a verified Service-Disabled Veteran-Owned Small Business (SDVOSB)
+                </p>
+                <p className="text-xs text-white/60 mt-1">
+                  CAGE: 9V6S7 | UEI: N6TVP1A8K7J1
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Footer - Only visible in print */}
+        <div className="print-only hidden text-center mt-8 pt-4 border-t border-gray-300">
+          <p className="text-xs text-gray-500">
+            MTMKay Capabilities Statement | Updated March 2025
+          </p>
         </div>
-      </section>
-
-      {/* Contact Section - Enhanced */}
-      <section className="py-20 bg-primary-dark text-white">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="max-w-4xl mx-auto"
-          >
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Ready to Partner with MTMKay?
-              </h2>
-              <p className="text-xl text-gray-200">
-                Contact our government POC to discuss your requirements
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-8">
-              <Card className="p-6 bg-white/10 backdrop-blur-sm border border-white/20">
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0">
-                    <div className="h-12 w-12 bg-white/20 rounded-lg flex items-center justify-center">
-                      <UserCheck size={24} className="text-white" />
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-lg mb-1">
-                      Government POC
-                    </h3>
-                    <p className="text-white/80">Michael Mbu</p>
-                  </div>
-                </div>
-              </Card>
-
-              <Card className="p-6 bg-white/10 backdrop-blur-sm border border-white/20">
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0">
-                    <div className="h-12 w-12 bg-white/20 rounded-lg flex items-center justify-center">
-                      <Phone size={24} className="text-white" />
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-lg mb-1">Phone</h3>
-                    <a
-                      href="tel:+16122241176"
-                      className="text-white/80 hover:text-white"
-                    >
-                      +1 (612) 224-1176
-                    </a>
-                  </div>
-                </div>
-              </Card>
-
-              <Card className="p-6 bg-white/10 backdrop-blur-sm border border-white/20">
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0">
-                    <div className="h-12 w-12 bg-white/20 rounded-lg flex items-center justify-center">
-                      <Mail size={24} className="text-white" />
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-lg mb-1">Email</h3>
-                    <a
-                      href="mailto:mbu.michael@mtmkay.com"
-                      className="text-white/80 hover:text-white break-all"
-                    >
-                      mbu.michael@mtmkay.com
-                    </a>
-                  </div>
-                </div>
-              </Card>
-
-              <Card className="p-6 bg-white/10 backdrop-blur-sm border border-white/20">
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0">
-                    <div className="h-12 w-12 bg-white/20 rounded-lg flex items-center justify-center">
-                      <Globe size={24} className="text-white" />
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-lg mb-1">Website</h3>
-                    <a
-                      href="https://mtmkay.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-white/80 hover:text-white"
-                    >
-                      https://mtmkay.com
-                    </a>
-                  </div>
-                </div>
-              </Card>
-            </div>
-
-            <div className="text-center mt-12">
-              <Button
-                asLink
-                to="/contact"
-                size="lg"
-                variant="secondary"
-                className="bg-white text-primary hover:bg-gray-100"
-              >
-                Request Full Capabilities Package
-              </Button>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      </div>
     </>
   );
 };
