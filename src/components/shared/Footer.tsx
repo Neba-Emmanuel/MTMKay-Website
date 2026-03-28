@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
+import { Facebook, Twitter, Linkedin, Instagram, FileText } from "lucide-react";
 
 const Footer: React.FC = () => {
   const quickLinks = [
@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
   ];
 
   const legalLinks = [
-    { name: "Capabilities Statement", path: "/capabilities-statement" },
+    { name: "Government Contracting", path: "/capabilities-statement" },
   ];
 
   return (

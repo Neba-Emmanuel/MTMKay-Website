@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import {
@@ -26,11 +26,16 @@ import {
   Zap,
   DollarSign,
   ArrowRight,
+  Download,
+  Printer,
 } from "lucide-react";
 import Button from "../components/ui/Button";
 import Card from "../components/ui/Card";
 
 const Capabilities = () => {
+  const handleDownloadPDF = () => {
+    window.print();
+  };
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
@@ -209,13 +214,13 @@ const Capabilities = () => {
               >
                 Request Capabilities Package
               </Button>
-              <a
-                href="#core-competencies"
-                onClick={() => scrollToCoreCompetencies}
-                className="text-white border border-white hover:bg-white/10 p-4 rounded-lg transition-colors"
+              <button
+                onClick={handleDownloadPDF}
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-colors"
               >
-                Explore Competencies
-              </a>
+                <Download size={20} />
+                Download PDF
+              </button>
             </div>
 
             {/* SDVOSB Badge */}

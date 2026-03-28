@@ -132,6 +132,53 @@
         },
       };
     </script>
+
+    <!-- Print Styles for Capabilities Statement -->
+    <style>
+      @media print {
+        /* Hide elements not needed for print */
+        nav,
+        footer,
+        button,
+        .no-print {
+          display: none !important;
+        }
+        
+        /* Ensure content fits on page */
+        section {
+          page-break-inside: avoid;
+          padding: 20px 0;
+        }
+        
+        /* Optimize for print */
+        body {
+          font-size: 12pt;
+          line-height: 1.5;
+          color: #000;
+          background: #fff;
+        }
+        
+        /* Ensure images print properly */
+        img {
+          max-width: 100%;
+          print-color-adjust: exact;
+          -webkit-print-color-adjust: exact;
+        }
+        
+        /* Card backgrounds */
+        .bg-primary,
+        .bg-primary-dark {
+          print-color-adjust: exact;
+          -webkit-print-color-adjust: exact;
+        }
+        
+        /* Page margins */
+        @page {
+          margin: 0.5in;
+          size: letter;
+        }
+      }
+    </style>
   </head>
   <body class="bg-gray-50 text-gray-800">
     <div id="root"></div>
