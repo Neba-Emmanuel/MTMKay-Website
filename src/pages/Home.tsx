@@ -547,7 +547,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* Government Contracting Section */}
-      <section className="py-20 bg-gray-50">
+      {/* <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="bg-gradient-to-br from-primary/5 to-blue-50 p-8 md:p-12 rounded-2xl border border-primary/10">
@@ -584,7 +584,7 @@ const Home: React.FC = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Work Café CTA Banner */}
       {/* <section className="py-16 bg-amber-500">
