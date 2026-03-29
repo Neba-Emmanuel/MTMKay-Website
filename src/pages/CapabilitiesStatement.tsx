@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import {
@@ -9,37 +9,29 @@ import {
   FileText,
   Users,
   Star,
-  ChevronRight,
   MapPin,
   Phone,
   Mail,
   Globe,
   Lock,
-  TrendingUp,
-  Code,
-  Server,
-  Network,
-  HardDrive,
-  AlertOctagon,
   Target,
   UserCheck,
-  Zap,
-  DollarSign,
-  ArrowRight,
-  Download,
-  Printer,
   Building2,
-  Calendar,
   Flag,
+  Download,
 } from "lucide-react";
 import Button from "../components/ui/Button";
-import Card from "../components/ui/Card";
 
 const Capabilities = () => {
-  const contentRef = useRef<HTMLDivElement>(null);
-
   const handleDownloadPDF = () => {
-    window.print();
+    // Create a link to the PDF file in the public folder
+    const pdfUrl = "/mtmkay-capabilities-statement.pdf";
+    const link = document.createElement("a");
+    link.href = pdfUrl;
+    link.download = "MTMKay-Capabilities-Statement.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const fadeInUp = {
@@ -80,7 +72,7 @@ const Capabilities = () => {
         "Help desk and end-user support",
         "Cloud infrastructure management",
       ],
-      icon: Server,
+      icon: Shield,
     },
     {
       category: "Program Management & Consulting",
@@ -92,7 +84,7 @@ const Capabilities = () => {
         "Strategic IT planning and roadmap development",
         "Quality assurance and control",
       ],
-      icon: Briefcase,
+      icon: Shield,
     },
   ];
 
@@ -131,9 +123,9 @@ const Capabilities = () => {
     { name: "SAM Registered", icon: FileText },
     { name: "Top Secret Security Clearance", icon: Lock },
     { name: "CompTIA Security+", icon: Shield },
-    { name: "CompTIA A+", icon: HardDrive },
-    { name: "CompTIA Network+", icon: Network },
-    { name: "ACAS Certified", icon: AlertOctagon },
+    { name: "CompTIA A+", icon: Shield },
+    { name: "CompTIA Network+", icon: Shield },
+    { name: "ACAS Certified", icon: Shield },
     { name: "DoD Cybersecurity Certified", icon: UserCheck },
   ];
 
@@ -172,73 +164,11 @@ const Capabilities = () => {
           content="SDVOSB, IT consulting, cybersecurity, ACAS, Nessus, DoD, veteran-owned, government contracting"
         />
         <link rel="canonical" href="https://mtmkay.com/capabilities-statement" />
-        
-        {/* Print Styles for PDF */}
-        <style>{`
-          @media print {
-            body {
-              background: white;
-              font-size: 12pt;
-            }
-            .no-print {
-              display: none !important;
-            }
-            .print-only {
-              display: block !important;
-            }
-            .print-break {
-              page-break-before: avoid;
-              page-break-inside: avoid;
-            }
-            .print-full-width {
-              width: 100% !important;
-              max-width: 100% !important;
-            }
-            a {
-              text-decoration: none;
-              color: black;
-            }
-            .bg-gray-50 {
-              background-color: #f9fafb !important;
-              -webkit-print-color-adjust: exact;
-              print-color-adjust: exact;
-            }
-            .bg-primary-dark {
-              background-color: #1e293b !important;
-              -webkit-print-color-adjust: exact;
-              print-color-adjust: exact;
-            }
-            .text-white {
-              color: white !important;
-              -webkit-print-color-adjust: exact;
-              print-color-adjust: exact;
-            }
-            .shadow-lg, .shadow-xl, .shadow-sm {
-              box-shadow: none !important;
-            }
-            .border {
-              border: 1px solid #e5e7eb !important;
-            }
-            .rounded-lg, .rounded-xl, .rounded-2xl {
-              border-radius: 0.5rem !important;
-            }
-            @page {
-              size: letter;
-              margin: 0.75in;
-            }
-            h1, h2, h3, h4 {
-              page-break-after: avoid;
-            }
-            p, li, .card {
-              page-break-inside: avoid;
-            }
-          }
-        `}</style>
       </Helmet>
 
-      <div ref={contentRef} className="capabilities-content">
+      <div className="capabilities-content">
         {/* Hero Section */}
-        <section className="relative bg-gradient-to-br from-primary-dark to-gray-900 text-white overflow-hidden print-break">
+        <section className="relative bg-gradient-to-br from-primary-dark to-gray-900 text-white overflow-hidden">
           {/* Background Pattern */}
           <div className="absolute inset-0 opacity-10">
             <div
@@ -256,13 +186,6 @@ const Capabilities = () => {
               transition={{ duration: 0.6 }}
               className="max-w-4xl mx-auto text-center"
             >
-              {/* Company Logo/Header for Print */}
-              <div className="print-only hidden mb-8 text-center">
-                <h1 className="text-3xl font-bold">MTMKay</h1>
-                <p className="text-white-600 mt-2">IT & Cybersecurity Solutions</p>
-                <hr className="my-4 border-gray-300" />
-              </div>
-
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
                 Capabilities Statement
               </h1>
@@ -270,7 +193,7 @@ const Capabilities = () => {
                 Delivering secure, reliable IT and cybersecurity solutions
                 strengthened by military precision and DoD expertise.
               </p>
-              
+
               {/* SDVOSB Badge */}
               <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
                 <Flag size={16} className="text-yellow-400" />
@@ -279,23 +202,7 @@ const Capabilities = () => {
                 </span>
               </div>
 
-              {/* Quick Info Grid for Print */}
-              <div className="print-only hidden mt-8 grid grid-cols-3 gap-4 text-center">
-                <div>
-                  <p className="text-xs font-semibold">CAGE Code</p>
-                  <p className="text-sm font-mono">9V6S7</p>
-                </div>
-                <div>
-                  <p className="text-xs font-semibold">UEI</p>
-                  <p className="text-sm font-mono">N6TVP1A8K7J1</p>
-                </div>
-                <div>
-                  <p className="text-xs font-semibold">Business Type</p>
-                  <p className="text-sm">SDVOSB</p>
-                </div>
-              </div>
-
-              <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center no-print">
+              <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
                 <Button
                   asLink
                   to="/contact"
@@ -305,20 +212,20 @@ const Capabilities = () => {
                 >
                   Request Capabilities Package
                 </Button>
-                <a
-                  href="#download"
+                <button
                   onClick={handleDownloadPDF}
                   className="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-colors"
                 >
+                  <Download size={20} />
                   Download PDF
-                </a>
+                </button>
               </div>
             </motion.div>
           </div>
         </section>
 
         {/* Company Overview */}
-        <section className="py-12 md:py-16 print-break">
+        <section className="py-12 md:py-16">
           <div className="container mx-auto px-4">
             <div className="grid lg:grid-cols-3 gap-8">
               <motion.div
@@ -406,7 +313,7 @@ const Capabilities = () => {
         </section>
 
         {/* Core Competencies */}
-        <section id="core-competencies" className="py-12 md:py-16 bg-gray-50 print-break">
+        <section id="core-competencies" className="py-12 md:py-16 bg-gray-50">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -450,7 +357,7 @@ const Capabilities = () => {
         </section>
 
         {/* Differentiators */}
-        <section className="py-12 md:py-16 print-break">
+        <section className="py-12 md:py-16">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -497,7 +404,7 @@ const Capabilities = () => {
         </section>
 
         {/* Certifications & NAICS */}
-        <section className="py-12 md:py-16 bg-gray-50 print-break">
+        <section className="py-12 md:py-16 bg-gray-50">
           <div className="container mx-auto px-4">
             <div className="grid lg:grid-cols-2 gap-8">
               {/* Certifications */}
@@ -569,7 +476,7 @@ const Capabilities = () => {
         </section>
 
         {/* Notable Clients */}
-        <section className="py-12 md:py-16 print-break">
+        <section className="py-12 md:py-16">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
               <h2 className="text-2xl md:text-3xl font-bold mb-4 flex items-center justify-center gap-2">
@@ -584,11 +491,7 @@ const Capabilities = () => {
                 <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
                   <div className="flex items-center gap-4">
                     <div className="h-14 w-14 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                      <img
-                      src="/netc.webp"
-                      alt="NETC Logo"
-                      className="w-12 h-12 rounded-full"
-                    />
+                      <Shield size={28} className="text-primary" />
                     </div>
                     <div className="text-left">
                       <p className="font-bold text-lg">NETC Pensacola</p>
@@ -598,30 +501,24 @@ const Capabilities = () => {
                   </div>
                 </div>
 
-              {/* Placeholder for future clients */}
-              <div className="p-8 border-dashed border-2 border-gray-200 bg-white rounded-xl">
-                <div className="flex items-center gap-5">
-                  <div className="h-16 w-16 bg-gray-100 rounded-full flex items-center justify-center">
-                    <Users size={30} className="text-gray-400" />
-                  </div>
-
-                  <div className="text-left">
-                    <p className="text-lg font-semibold text-gray-500">
-                      Additional Clients
-                    </p>
-                    <p className="text-gray-400 text-sm">
-                      More partnerships coming soon
-                    </p>
+                <div className="bg-white rounded-xl p-6 border-2 border-dashed border-gray-200">
+                  <div className="flex items-center gap-4">
+                    <div className="h-14 w-14 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0">
+                      <Building2 size={28} className="text-gray-400" />
+                    </div>
+                    <div className="text-left">
+                      <p className="font-semibold text-gray-600">Additional Clients</p>
+                      <p className="text-gray-400 text-sm">References available upon request</p>
+                    </div>
                   </div>
                 </div>
-              </div>
               </div>
             </div>
           </div>
         </section>
 
         {/* Contact Section */}
-        <section className="py-12 md:py-16 bg-primary-dark text-white print-break">
+        <section className="py-12 md:py-16 bg-primary-dark text-white">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-8">
@@ -679,7 +576,7 @@ const Capabilities = () => {
                 </div>
               </div>
 
-              <div className="text-center mt-8 no-print">
+              <div className="text-center mt-8">
                 <Button
                   asLink
                   to="/contact"
@@ -690,26 +587,9 @@ const Capabilities = () => {
                   Request Full Capabilities Package
                 </Button>
               </div>
-
-              {/* Footer for Print */}
-              <div className="print-only hidden text-center mt-8 pt-4 border-t border-white/20">
-                <p className="text-xs text-white/60">
-                  MTMKay is a verified Service-Disabled Veteran-Owned Small Business (SDVOSB)
-                </p>
-                <p className="text-xs text-white/60 mt-1">
-                  CAGE: 9V6S7 | UEI: N6TVP1A8K7J1
-                </p>
-              </div>
             </div>
           </div>
         </section>
-
-        {/* Footer - Only visible in print */}
-        <div className="print-only hidden text-center mt-8 pt-4 border-t border-gray-300">
-          <p className="text-xs text-gray-500">
-            MTMKay Capabilities Statement | Updated March 2025
-          </p>
-        </div>
       </div>
     </>
   );
