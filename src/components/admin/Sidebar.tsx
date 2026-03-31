@@ -22,6 +22,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
     { to: "/admin/blog", icon: PenSquare, text: "Blog Posts" },
     { to: "/admin/registrations", icon: Users, text: "Registrations" },
     { to: "/admin/payments", icon: CreditCard, text: "Payments" },
+    { to: "/admin/leads", icon: Users, text: "Leads & Inquiries" },
   ];
 
   const activeClass = "bg-primary text-white";

@@ -240,6 +240,13 @@ const Dashboard: React.FC = () => {
       link: "/admin/blog",
       color: "bg-orange-500 hover:bg-orange-600",
     },
+    {
+      title: "Leads & Inquiries",
+      description: "View and manage leads",
+      icon: <Eye size={20} />,
+      link: "/admin/leads",
+      color: "bg-teal-500 hover:bg-teal-600",
+    },
   ];
 
   const handleRefresh = () => {
