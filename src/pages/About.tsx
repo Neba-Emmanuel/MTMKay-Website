@@ -48,7 +48,7 @@ const About: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>About Us - MTMKay IT Training & Consultancy</title>
+        <title>About Us - MTMKay Technology, Consulting & Real Estate</title>
         <meta
           name="description"
           content="Learn about MTMKay's mission, vision, and the expert team dedicated to your success in the IT industry."

@@ -1,10 +1,10 @@
 {
-  "name": "mtmkay-it-training-&-consultancy",
+  "name": "mtmkay-technology-consulting-real-estate",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "homepage": "https://www.mtmkay.mtmkay.com",
-  "description": "MTMKay IT Training & Consultancy Website",
+  "description": "MTMKay Technology, Consulting & Real Estate Website",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

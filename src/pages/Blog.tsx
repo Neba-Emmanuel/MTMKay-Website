@@ -58,7 +58,7 @@ const Blog: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Blog - MTMKay IT Training & Consultancy</title>
+        <title>Blog - MTMKay Technology, Consulting & Real Estate</title>
         <meta
           name="description"
           content="Read the latest articles, insights, and news from the IT world on the MTMKay blog."

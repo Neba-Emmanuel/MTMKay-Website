@@ -187,7 +187,7 @@ const Contact: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Contact Us - MTMKay IT Training & Consultancy</title>
+        <title>Contact Us - MTMKay Technology, Consulting & Real Estate</title>
         <meta
           name="description"
           content="Get in touch with MTMKay for inquiries about our courses, services, or any other questions."

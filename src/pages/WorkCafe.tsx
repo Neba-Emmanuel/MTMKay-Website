@@ -231,7 +231,7 @@ const WorkCafe: React.FC = () => {
     <>
       <Helmet>
         <title>
-          Work Café - Professional Workspace | MTMKay IT Training & Consultancy
+          Work Café - Professional Workspace | MTMKay Technology, Consulting & Real Estate
         </title>
         <meta
           name="description"

@@ -145,7 +145,7 @@ const Home: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>MTMKay IT Training & Consultancy - Home</title>
+        <title>MTMKay Technology, Consulting & Real Estate - Home</title>
         <meta
           name="description"
           content="Welcome to MTMKay, a leading center for IT training and consultancy. Explore our Work Café, courses in web development, data science, and more."

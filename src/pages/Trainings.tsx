@@ -80,7 +80,7 @@ const Trainings: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>All Trainings - MTMKay IT Training & Consultancy</title>
+        <title>All Trainings - MTMKay Technology, Consulting & Real Estate</title>
         <meta
           name="description"
           content="Browse our comprehensive list of IT trainings. Find the perfect course in web development, data science, cybersecurity, and more."
