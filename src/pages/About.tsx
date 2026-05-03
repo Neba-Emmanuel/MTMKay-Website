@@ -65,7 +65,7 @@ const About: React.FC = () => {
             transition={{ duration: 0.5 }}
             className="text-4xl font-bold"
           >
-            About MTMKay
+            Your Trusted IT Consulting & Tech Training Hub in Kumba
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -73,7 +73,13 @@ const About: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="mt-2 text-lg"
           >
-            Pioneering Excellence in IT Education and Solutions
+            Located on Lido Street, MTMKay is a premier technology and consulting firm dedicated to 
+            bridging the digital divide in the Southwest Region. Whether we are building a web 
+            platform for a local agribusiness, improving digital outreach for regional NGOs, 
+            or managing complex cloud computing migrations, our goal is to elevate Cameroonian 
+            enterprises to global standards. We also house The Work Café, Kumba's most reliable 
+            coworking space, providing freelancers and students with uninterrupted power and high-speed 
+            Starlink internet.
           </motion.p>
         </div>
       </header>
@@ -122,6 +128,151 @@ const About: React.FC = () => {
               </p>
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      {/* SECTION 1: What We Do (Image Left, Text Right) */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.7 }}
+              className="order-1"
+            >
+              <img
+                src="/what-we-do.jpg"
+                alt="MTMKay IT Consulting team working on web development in Kumba"
+                className="rounded-lg shadow-xl"
+                loading="lazy"
+                decoding="async"
+              />
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.7 }}
+              className="order-2"
+            >
+              <h2 className="text-3xl font-bold mb-4">What We Do: Building the Digital Future of Cameroon</h2>
+              <p className="text-gray-600 leading-relaxed mb-6">
+                We believe that technology should solve real, local problems. 
+                As a leading provider of <strong>IT consulting in Kumba</strong>, we deliver tailored 
+                enterprise solutions. Whether we are designing backend data schemas 
+                for SMS-based agribusiness marketplaces to connect farmers with buyers, 
+                or structuring SEO-friendly digital outreach portals for non-profit organizations, 
+                we build systems that scale. Our expertise spans <strong>web development</strong>, UI/UX design, 
+                cloud computing, and robust <strong>cybersecurity</strong>.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 2: The Work Cafe (Text Left, Image Right) */}
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.7 }}
+              className="order-2 md:order-1"
+            >
+              <h2 className="text-3xl font-bold mb-4">The Work Café: Kumba’s Premium Coworking Space</h2>
+              <p className="text-gray-600 leading-relaxed mb-6">
+                We understand the challenges of remote work and digital learning in Cameroon. That is why we built <strong>The Work Café</strong>. Situated right in our Lido Street facility, it is the most reliable <strong>coworking space in Kumba</strong>. Equipped with high-speed Starlink internet and guaranteed backup power, we provide freelancers, remote workers, and students with a distraction-free environment to code, create, and collaborate.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.7 }}
+              className="order-1 md:order-2"
+            >
+              <img
+                src="/work-cafe-kumba.jpg" 
+                alt="Freelancers and students using The Work Cafe coworking space on Lido Street"
+                className="rounded-lg shadow-xl"
+                loading="lazy"
+                decoding="async"
+              />
+            </motion.div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 3: Education & Real Estate (Image Left, Text Right) */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.7 }}
+              className="order-1"
+            >
+              <img
+                src="/mtmkay-education-real-estate.jpg" 
+                alt="MTMKay tech training bootcamp and real estate consulting in the Southwest Region"
+                className="rounded-lg shadow-xl"
+                loading="lazy"
+                decoding="async"
+              />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.7 }}
+              className="order-2"
+            >
+              <h2 className="text-3xl font-bold mb-4">Education & Real Estate Solutions</h2>
+              <p className="text-gray-600 leading-relaxed mb-4">
+                Beyond corporate consultancy, MTMKay is committed to building the next generation of tech leaders. We offer hands-on, certification-track <strong>tech training and bootcamps</strong> in partnership with industry giants like Cisco and Microsoft, focusing on high-demand skills like full-stack development and algorithmic logic.
+              </p>
+              <p className="text-gray-600 leading-relaxed mb-6">
+                Additionally, our <strong>real estate services</strong> bring that same level of modern, trusted, and efficient problem-solving to the local property market, ensuring our clients have the physical and digital infrastructure they need to thrive.
+              </p>
+            </motion.div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 4: Call To Action (Centered Block) */}
+      <section className="py-24 bg-slate-900 text-white text-center">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.8 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-2xl mx-auto"
+          >
+            <h3 className="text-4xl font-bold mb-6">Let’s Build Something Together</h3>
+            <p className="text-slate-300 mb-8 text-lg">
+              Whether you need enterprise IT solutions, a quiet desk to work, or a new property investment, our team is ready to help you succeed.
+            </p>
+            <a 
+              href="/contact" /* Update this link to your actual contact page route */
+              className="inline-block bg-blue-800 hover:bg-blue-600 text-white font-semibold py-4 px-8 rounded-lg shadow-lg transition-colors duration-300"
+            >
+              Get in Touch Today
+            </a>
+          </motion.div>
         </div>
       </section>
 
