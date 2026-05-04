@@ -3,34 +3,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainLayout from "./src/layouts/MainLayout";
 import AdminLayout from "./src/layouts/AdminLayout";
 import ProtectedRoute from "./src/components/context/protectedRoute";
-
-// Public Pages
-import Home from "./src/pages/Home";
-import About from "./src/pages/About";
-import Services from "./src/pages/Services";
-import Trainings from "./src/pages/Trainings";
-import TrainingDetail from "./src/pages/TrainingDetail";
-import CourseRegistration from "./src/pages/CourseRegistration";
-import Blog from "./src/pages/Blog";
-import BlogPostDetail from "./src/pages/BlogPostDetail";
-import Contact from "./src/pages/Contact";
-import WorkCafe from "./src/pages/WorkCafe";
-import NotFound from "./src/pages/NotFound";
-import PaymentSuccess from "./src/pages/PaymentSuccess";
-import Capabilities from "./src/pages/CapabilitiesStatement";
-import Leads from "./src/pages/Leads";
-import ManageLeads from "./src/pages/admin/ManageLeads";
-
-// Admin Pages
-import AdminLogin from "./src/pages/admin/Login";
-import Dashboard from "./src/pages/admin/Dashboard";
-import ManageTrainings from "./src/pages/admin/ManageTrainings";
-import ManageBlog from "./src/pages/admin/ManageBlog";
-import ManageRegistrations from "./src/pages/admin/ManageRegistrations";
-import ViewPayments from "./src/pages/admin/ViewPayments";
 import Preloader from "./src/components/shared/Preloader";
 import { AuthContext } from "./src/components/context/authContext";
 
+// Lazy-loaded Public Pages
 const Home = lazy(() => import("./src/pages/Home"));
 const About = lazy(() => import("./src/pages/About"));
 const Services = lazy(() => import("./src/pages/Services"));
@@ -44,23 +20,16 @@ const WorkCafe = lazy(() => import("./src/pages/WorkCafe"));
 const NotFound = lazy(() => import("./src/pages/NotFound"));
 const PaymentSuccess = lazy(() => import("./src/pages/PaymentSuccess"));
 const Capabilities = lazy(() => import("./src/pages/CapabilitiesStatement"));
+const Leads = lazy(() => import("./src/pages/Leads"));
+
+// Lazy-loaded Admin Pages
 const AdminLogin = lazy(() => import("./src/pages/admin/Login"));
 const Dashboard = lazy(() => import("./src/pages/admin/Dashboard"));
 const ManageTrainings = lazy(() => import("./src/pages/admin/ManageTrainings"));
 const ManageBlog = lazy(() => import("./src/pages/admin/ManageBlog"));
-const ManageRegistrations = lazy(
-  () => import("./src/pages/admin/ManageRegistrations"),
-);
+const ManageRegistrations = lazy(() => import("./src/pages/admin/ManageRegistrations"));
 const ViewPayments = lazy(() => import("./src/pages/admin/ViewPayments"));
-
-const PageLoader = () => (
-  <div className="min-h-screen flex items-center justify-center bg-gray-50">
-    <div className="text-center">
-      <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-      <p className="mt-4 text-gray-600">Loading...</p>
-    </div>
-  </div>
-);
+const ManageLeads = lazy(() => import("./src/pages/admin/ManageLeads"));
 
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
@@ -110,8 +79,8 @@ const App: React.FC = () => {
                 <Route path="leads" element={<ManageLeads />} />
               </Route>
             </Route>
-            <Route path="payment-success" element={<PaymentSuccess />} />
 
+            <Route path="payment-success" element={<PaymentSuccess />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
