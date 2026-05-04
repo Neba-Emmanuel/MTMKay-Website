@@ -65,7 +65,7 @@ const About: React.FC = () => {
             transition={{ duration: 0.5 }}
             className="text-4xl font-bold"
           >
-            Your Trusted IT Consulting & Tech Training Hub in Kumba
+            About Us
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -73,10 +73,39 @@ const About: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="mt-2 text-lg"
           >
-            Pioneering Excellence in IT Education and Solutions
+            Your Trusted IT Consulting & Tech Training Hub in Kumba
           </motion.p>
         </div>
       </header>
+
+      {/* Mission & Vision Section */}
+      <section className="py-20 bg-gray-100">
+        <div className="container mx-auto px-4 grid md:grid-cols-2 gap-8">
+          <Card className="p-8">
+            <div className="flex items-center mb-4">
+              <Target className="text-primary mr-4" size={40} />
+              <h3 className="text-2xl font-bold">Our Mission</h3>
+            </div>
+            <p className="text-gray-600">
+              To provide accessible, high-quality IT education and consultancy
+              that equips our clients with practical skills and strategic
+              advantages, fostering innovation and driving career and business
+              growth.
+            </p>
+          </Card>
+          <Card className="p-8">
+            <div className="flex items-center mb-4">
+              <Eye className="text-primary mr-4" size={40} />
+              <h3 className="text-2xl font-bold">Our Vision</h3>
+            </div>
+            <p className="text-gray-600">
+              To be a leading global IT hub recognized for creating a new
+              generation of tech leaders and for transforming businesses through
+              technology.
+            </p>
+          </Card>
+        </div>
+      </section>
 
       {/* Overview Section */}
       <section className="py-20">
@@ -271,35 +300,6 @@ const About: React.FC = () => {
               Get in Touch Today
             </a>
           </motion.div>
-        </div>
-      </section>
-
-      {/* Mission & Vision Section */}
-      <section className="py-20 bg-gray-100">
-        <div className="container mx-auto px-4 grid md:grid-cols-2 gap-8">
-          <Card className="p-8">
-            <div className="flex items-center mb-4">
-              <Target className="text-primary mr-4" size={40} />
-              <h3 className="text-2xl font-bold">Our Mission</h3>
-            </div>
-            <p className="text-gray-600">
-              To provide accessible, high-quality IT education and consultancy
-              that equips our clients with practical skills and strategic
-              advantages, fostering innovation and driving career and business
-              growth.
-            </p>
-          </Card>
-          <Card className="p-8">
-            <div className="flex items-center mb-4">
-              <Eye className="text-primary mr-4" size={40} />
-              <h3 className="text-2xl font-bold">Our Vision</h3>
-            </div>
-            <p className="text-gray-600">
-              To be a leading global IT hub recognized for creating a new
-              generation of tech leaders and for transforming businesses through
-              technology.
-            </p>
-          </Card>
         </div>
       </section>
 
