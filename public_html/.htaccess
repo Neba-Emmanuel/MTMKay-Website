@@ -1,17 +1,17 @@
 Options -MultiViews
-
-AddType application/javascript .js .mjs
-AddType text/css .css
-AddType application/json .json
-AddType application/wasm .wasm
-AddType image/svg+xml .svg
-
 RewriteEngine On
 
-RewriteRule ^about-us/?$ /about [R=301,L]
+AddType application/javascript js mjs
+AddType text/css css
 
-RewriteCond %{REQUEST_FILENAME} -f [OR]
-RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^ - [L]
+<FilesMatch "\.js$">
+  ForceType application/javascript
+</FilesMatch>
 
-RewriteRule ^ index.html [L]
+<FilesMatch "\.mjs$">
+  ForceType application/javascript
+</FilesMatch>
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ /index.html [L]
