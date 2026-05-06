@@ -22,9 +22,8 @@ export default defineConfig(({ mode }) => {
       emptyOutDir: true,
       rollupOptions: {
         output: {
-          // ← rename .js chunks to .jsx so Apache handles them differently
-          entryFileNames: `assets/[name]-[hash].jsx`,
-          chunkFileNames: `assets/[name]-[hash].jsx`,
+          entryFileNames: `assets/[name]-[hash].js`,
+          chunkFileNames: `assets/[name]-[hash].js`,
           assetFileNames: `assets/[name]-[hash].[ext]`,
           manualChunks: {
             vendor: ["react", "react-dom", "react-router-dom"],
