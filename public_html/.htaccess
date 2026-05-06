@@ -1,0 +1,21 @@
+Options -MultiViews
+RewriteEngine On
+
+# MIME types - cover all possible extensions
+AddType application/javascript .js .mjs .jsx .ts .tsx
+AddType text/css .css
+AddType application/json .json
+AddType application/wasm .wasm
+AddType image/svg+xml .svg .svgz
+
+<FilesMatch "\.(js|mjs|jsx|ts|tsx)$">
+  ForceType application/javascript
+</FilesMatch>
+
+# Disable MultiViews content negotiation
+Options -Multiviews
+
+# SPA routing
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ /index.html [L]
