@@ -1,4 +1,3 @@
-<!-- htaccess -->
 Options -MultiViews
 RewriteEngine On
 
