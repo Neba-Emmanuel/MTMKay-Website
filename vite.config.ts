@@ -5,6 +5,7 @@ import react from "@vitejs/plugin-react";
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, ".", "");
   return {
+    base: "/",
     server: {
       port: 3000,
       host: "0.0.0.0",
@@ -17,6 +18,8 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
+      outDir: "public_html",        // ← build directly into public_html
+      emptyOutDir: true,            // ← clears old files before each build
       rollupOptions: {
         output: {
           manualChunks: {
