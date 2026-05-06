@@ -18,7 +18,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
-      outDir: "public_html",
+      outDir: "dist",
       emptyOutDir: true,
       rollupOptions: {
         output: {
