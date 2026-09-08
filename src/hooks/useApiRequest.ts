@@ -6,8 +6,15 @@ const api = axios.create({
   timeout: 15000,
   headers: {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
   },
+});
+
+// Read the current session for every request, including immediately after login.
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) config.headers.set("Authorization", `Bearer ${token}`);
+  else config.headers.delete("Authorization");
+  return config;
 });
 
 export const useApiRequest = <T = any>() => {
