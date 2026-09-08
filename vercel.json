@@ -8,6 +8,10 @@
             "destination": "/api/blog-og?slug=:slug"
         },
         {
+            "source": "/trainings/:slug",
+            "destination": "/api/training-og?slug=:slug"
+        },
+        {
             "source": "/(.*)",
             "destination": "/index.html"
         }
