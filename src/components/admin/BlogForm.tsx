@@ -1,3 +1,4 @@
+import { uploadImage } from "../../utils/uploadImage";
 import React, { useState, useEffect } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -149,12 +150,32 @@ const BlogForm: React.FC<BlogFormProps> = ({
     }
   };
 
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+    setUploading(true);
+    setUploadError("");
+    try {
+      const url = await uploadImage(file, "blog");
+      setFormData((prev) => ({ ...prev, imageUrl: url }));
+      setErrors((prev) => ({ ...prev, imageUrl: "" }));
+    } catch (error) {
+      setUploadError(error instanceof Error ? error.message : "Upload failed");
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const removeImage = () => {
     setFormData((prev) => ({ ...prev, imageUrl: null }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (uploading) return;
 
     if (!validate()) return;
 
@@ -405,6 +426,15 @@ const BlogForm: React.FC<BlogFormProps> = ({
                   </label>
 
                   <div className="space-y-4">
+                      <label className="block text-sm font-medium text-gray-700">
+                        Upload image (JPEG, PNG, WebP, GIF; up to 4 MB)
+                        <input type="file" accept="image/jpeg,image/png,image/webp,image/gif"
+                          onChange={handleFileUpload} disabled={loading || uploading}
+                          className="block w-full mt-2 text-sm" />
+                      </label>
+                      {uploading && <p role="status">Uploading image…</p>}
+                      {uploadError && <p role="alert" className="text-sm text-red-600">{uploadError}</p>}
+
                     {imagePreview ? (
                       <>
                         <div className="border rounded-lg p-4">
@@ -425,6 +455,7 @@ const BlogForm: React.FC<BlogFormProps> = ({
                                 type="url"
                                 value={formData.imageUrl || ""}
                                 onChange={handleImageUrlChange}
+                                disabled={uploading}
                                 placeholder="https://example.com/image.jpg"
                                 className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all ${
                                   errors.imageUrl
@@ -445,6 +476,7 @@ const BlogForm: React.FC<BlogFormProps> = ({
                               variant="outline"
                               className="text-red-600 border-red-300"
                               onClick={removeImage}
+                                disabled={uploading}
                             >
                               Remove Image
                             </Button>
@@ -462,6 +494,7 @@ const BlogForm: React.FC<BlogFormProps> = ({
                             type="url"
                             value={formData.imageUrl || ""}
                             onChange={handleImageUrlChange}
+                                disabled={uploading}
                             placeholder="https://example.com/image.jpg"
                             className={`w-full max-w-md px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all ${
                               errors.imageUrl
@@ -524,12 +557,12 @@ const BlogForm: React.FC<BlogFormProps> = ({
                   type="button"
                   variant="outline"
                   onClick={onCancel}
-                  disabled={loading}
+                  disabled={loading || uploading}
                 >
                   Cancel
                 </Button>
 
-                <Button type="submit" disabled={loading}>
+                <Button type="submit" disabled={loading || uploading}>
                   {blog ? "Update Blog Post" : "Create Blog Post"}
                 </Button>
               </div>

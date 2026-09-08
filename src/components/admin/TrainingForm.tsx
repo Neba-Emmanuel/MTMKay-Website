@@ -1,3 +1,4 @@
+import { uploadImage } from "../../utils/uploadImage";
 import React, { useState } from "react";
 import Button from "../../components/ui/Button";
 import Card from "../../components/ui/Card";
@@ -153,12 +154,32 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
     }
   };
 
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+    setUploading(true);
+    setUploadError("");
+    try {
+      const url = await uploadImage(file, "training");
+      setFormData((prev) => ({ ...prev, imageUrl: url }));
+      setErrors((prev) => ({ ...prev, imageUrl: "" }));
+    } catch (error) {
+      setUploadError(error instanceof Error ? error.message : "Upload failed");
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const removeImage = () => {
     setFormData((prev) => ({ ...prev, imageUrl: null }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (uploading) return;
 
     if (!validate()) return;
 
@@ -363,6 +384,15 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
                       </label>
 
                       <div className="space-y-4">
+                      <label className="block text-sm font-medium text-gray-700">
+                        Upload image (JPEG, PNG, WebP, GIF; up to 4 MB)
+                        <input type="file" accept="image/jpeg,image/png,image/webp,image/gif"
+                          onChange={handleFileUpload} disabled={loading || uploading}
+                          className="block w-full mt-2 text-sm" />
+                      </label>
+                      {uploading && <p role="status">Uploading image…</p>}
+                      {uploadError && <p role="alert" className="text-sm text-red-600">{uploadError}</p>}
+
                         {imagePreview ? (
                           <>
                             <div className="border rounded-lg p-4">
@@ -384,6 +414,7 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
                                     type="url"
                                     value={formData.imageUrl || ""}
                                     onChange={handleImageUrlChange}
+                                disabled={uploading}
                                     placeholder="https://example.com/image.jpg"
                                     className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all ${
                                       errors.imageUrl
@@ -404,6 +435,7 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
                                   variant="outline"
                                   className="text-red-600 border-red-300"
                                   onClick={removeImage}
+                                disabled={uploading}
                                 >
                                   Remove Image
                                 </Button>
@@ -421,6 +453,7 @@ const TrainingForm: React.FC<TrainingFormProps> = ({
                                 type="url"
                                 value={formData.imageUrl || ""}
                                 onChange={handleImageUrlChange}
+                                disabled={uploading}
                                 placeholder="https://example.com/image.jpg"
                                 className={`w-full max-w-md px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all ${
                                   errors.imageUrl
@@ -758,7 +791,7 @@ Module 3: Advanced Topics
                   type="button"
                   variant="outline"
                   onClick={onCancel}
-                  disabled={loading}
+                  disabled={loading || uploading}
                 >
                   Cancel
                 </Button>
@@ -776,7 +809,7 @@ Module 3: Advanced Topics
                     Continue
                   </Button>
                 ) : (
-                  <Button type="submit" disabled={loading}>
+                  <Button type="submit" disabled={loading || uploading}>
                     {training ? "Update Training" : "Create Training"}
                   </Button>
                 )}
