@@ -8,6 +8,8 @@ import { AuthContext } from "./src/components/context/authContext";
 
 // Lazy-loaded Public Pages
 const Home = lazy(() => import("./src/pages/Home"));
+const Work = lazy(() => import("./src/pages/Work"));
+const WorkDetail = lazy(() => import("./src/pages/WorkDetail"));
 const About = lazy(() => import("./src/pages/About"));
 const Services = lazy(() => import("./src/pages/Services"));
 const Trainings = lazy(() => import("./src/pages/Trainings"));
@@ -27,7 +29,9 @@ const AdminLogin = lazy(() => import("./src/pages/admin/Login"));
 const Dashboard = lazy(() => import("./src/pages/admin/Dashboard"));
 const ManageTrainings = lazy(() => import("./src/pages/admin/ManageTrainings"));
 const ManageBlog = lazy(() => import("./src/pages/admin/ManageBlog"));
-const ManageRegistrations = lazy(() => import("./src/pages/admin/ManageRegistrations"));
+const ManageRegistrations = lazy(
+  () => import("./src/pages/admin/ManageRegistrations"),
+);
 const ViewPayments = lazy(() => import("./src/pages/admin/ViewPayments"));
 const ManageLeads = lazy(() => import("./src/pages/admin/ManageLeads"));
 
@@ -53,6 +57,8 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<MainLayout />}>
               <Route index element={<Home />} />
+              <Route path="work" element={<Work />} />
+              <Route path="work/:slug" element={<WorkDetail />} />
               <Route path="about" element={<About />} />
               <Route path="services" element={<Services />} />
               <Route path="trainings" element={<Trainings />} />

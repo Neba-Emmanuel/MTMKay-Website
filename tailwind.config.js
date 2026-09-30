@@ -2,7 +2,19 @@ import typography from "@tailwindcss/typography";
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: [
+    "./index.html",
+    "./App.tsx",
+    "./index.tsx",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  // Existing lead form assembles these utility names from its option colors.
+  safelist: [
+    {
+      pattern:
+        /^(border|bg|text)-(amber|blue|purple|red|sky|green)-(50|100|500|600|700)$/,
+    },
+  ],
   theme: {
     extend: {
       fontFamily: {

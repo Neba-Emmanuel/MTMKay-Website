@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
+import "./src/styles/base.css";
 import { HelmetProvider } from "react-helmet-async";
 
 const rootElement = document.getElementById("root");
@@ -14,5 +15,5 @@ root.render(
     <HelmetProvider>
       <App />
     </HelmetProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

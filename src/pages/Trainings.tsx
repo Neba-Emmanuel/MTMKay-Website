@@ -1,258 +1,247 @@
-import React, { useState, useMemo, useEffect } from "react";
-import { Helmet } from "react-helmet-async";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Card from "../components/ui/Card";
-import Input from "../components/ui/Input";
-import { ArrowRight, Search, Clock, Users, Calendar } from "lucide-react";
+import { CTA, Meta, PageIntro } from "../components/marketing/Elements";
+import Media from "../components/marketing/Media";
 import { useApiRequest } from "../hooks/useApiRequest";
 
-const Trainings: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+type Training = {
+  id: number;
+  slug: string;
+  title: string;
+  summary?: string;
+  category?: string;
+  imageUrl?: string;
+  price?: number;
+  slots?: { startDate: string; availableSeats: number }[];
+};
+
+export default function Trainings() {
+  const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
-  const { request, data: trainings, loading, error } = useApiRequest();
-
-  const fetchTrainings = () => {
-    request({
-      method: "GET",
-      url: "/trainings",
-    });
-  };
-
+  const [ready, setReady] = useState(false);
+  const { request, data, loading, error } = useApiRequest<Training[]>();
+  const fetchTrainings = useCallback(async () => {
+    try {
+      await request({ method: "GET", url: "/trainings" });
+    } catch {
+      /* The request hook exposes the error to the page. */
+    } finally {
+      setReady(true);
+    }
+  }, [request]);
   useEffect(() => {
-    fetchTrainings();
-  }, []);
-
-  console.log("Fetched Trainings:", trainings);
-
-  // Extract unique categories from the API data
-  const categories = useMemo(() => {
-    if (!trainings || trainings.length === 0) return ["All"];
-
-    const uniqueCategories = new Set<string>();
-    trainings.forEach((training: any) => {
-      if (training.category) {
-        uniqueCategories.add(training.category);
-      }
-    });
-
-    return ["All", ...Array.from(uniqueCategories)];
-  }, [trainings]);
-
-  const filteredTrainings = useMemo(() => {
-    if (!trainings) return [];
-
-    return trainings.filter((training: any) => {
-      const matchesSearch =
-        training.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        training.summary?.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory =
-        category === "All" || training.category === category;
-      return matchesSearch && matchesCategory;
-    });
-  }, [searchTerm, category, trainings]);
-
-  // Calculate earliest start date from slots
-  const getNextStartDate = (slots: any[]) => {
-    if (!slots || slots.length === 0) return null;
-    const sortedSlots = [...slots].sort(
-      (a, b) =>
-        new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
-    );
-    return sortedSlots[0].startDate;
-  };
-
-  // Calculate total available seats
-  const getTotalSeats = (slots: any[]) => {
-    if (!slots || slots.length === 0) return 0;
-    return slots.reduce((total, slot) => total + (slot.availableSeats || 0), 0);
-  };
-
-  // Format date
-  const formatDate = (dateString: string) => {
-    const options: Intl.DateTimeFormatOptions = {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    };
-    return new Date(dateString).toLocaleDateString("en-US", options);
-  };
+    void fetchTrainings();
+  }, [fetchTrainings]);
+  const trainings = Array.isArray(data) ? data : [];
+  const categories = Array.from(
+    new Set(
+      trainings.flatMap((item) => (item.category ? [item.category] : [])),
+    ),
+  );
+  const filtered = trainings.filter(
+    (item) =>
+      (category === "All" || item.category === category) &&
+      `${item.title} ${item.summary || ""}`
+        .toLowerCase()
+        .includes(search.trim().toLowerCase()),
+  );
 
   return (
-    <>
-      <Helmet>
-        <title>All Trainings - MTMKay Technology, Consulting & Real Estate</title>
-        <meta
-          name="description"
-          content="Browse our comprehensive list of IT trainings. Find the perfect course in web development, data science, cybersecurity, and more."
+    <div className="editorial-page resource-page">
+      <Meta
+        title="Academy & training"
+        path="/trainings"
+        description="Explore practical technology training at MTMKay. Find your next course, browse sessions, and build useful skills."
+      />
+      <div className="site-container visual-page-intro">
+        <PageIntro
+          label="ACADEMY & TRAINING"
+          title="Build skills. Open possibilities."
+          text="Practical technology training for your next step. Explore our programmes, find a session that works for you, and put what you learn into practice."
         />
-        <link rel="canonical" href="https://www.mtmkay.com/trainings" />
-      </Helmet>
-
-      {/* Page Header */}
-      <header className="bg-primary text-white py-16">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl font-bold">Our Trainings</h1>
-          <p className="mt-2 text-lg">
-            Find the perfect course to launch or advance your IT career.
-          </p>
-        </div>
-      </header>
-
-      {/* Filters Section */}
-      <section className="py-8 bg-gray-100 sticky top-20 z-30">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="relative flex-grow">
-              <Input
-                id="search"
-                type="text"
-                placeholder="Search for a training..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="py-3 pl-10 pr-4 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
-              />
-              <Search
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                size={20}
-              />
-            </div>
-            {/* <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
-            >
-              {categories.map((cat) => (
-                <option key={cat} value={cat}>
-                  {cat}
-                </option>
-              ))}
-            </select> */}
+        <Media asset="collaboration" caption priority className="intro-photo" />
+      </div>
+      <section
+        className="site-container resource-section"
+        aria-labelledby="programmes-title"
+      >
+        <div className="resource-heading">
+          <div>
+            <p className="eyebrow">LEARN WITH MTMKAY</p>
+            <h2 id="programmes-title">Find your next step.</h2>
           </div>
+          <p>Explore the current training catalogue.</p>
         </div>
-      </section>
-
-      {/* Trainings Grid */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          {loading ? (
-            <div className="text-center py-16">
-              <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-              <p className="mt-4 text-gray-600">Loading trainings...</p>
-            </div>
-          ) : error ? (
-            <div className="text-center py-16">
-              <h2 className="text-2xl font-bold text-red-600">
-                Error Loading Trainings
-              </h2>
-              <p className="text-gray-600 mt-2">Please try again later.</p>
-              <button
-                onClick={fetchTrainings}
-                className="mt-4 px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark"
-              >
-                Retry
-              </button>
-            </div>
-          ) : filteredTrainings.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredTrainings.map((training: any) => {
-                const nextStartDate = getNextStartDate(training.slots);
-                const totalSeats = getTotalSeats(training.slots);
-
+        <div className="catalogue-filters">
+          <label htmlFor="training-search">
+            Search programmes
+            <input
+              id="training-search"
+              type="search"
+              placeholder="What would you like to learn?"
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+            />
+          </label>
+          <label htmlFor="training-category">
+            Category
+            <select
+              id="training-category"
+              value={category}
+              onChange={(event) => setCategory(event.target.value)}
+            >
+              <option value="All">All categories</option>
+              {categories.map((item) => (
+                <option key={item}>{item}</option>
+              ))}
+            </select>
+          </label>
+        </div>
+        {loading || !ready ? (
+          <div className="resource-state" role="status">
+            Loading programmes…
+          </div>
+        ) : error ? (
+          <div className="resource-state" role="alert">
+            <h3>We couldn’t load the programmes.</h3>
+            <p>Please try again to see available training.</p>
+            <button className="solid-link" onClick={fetchTrainings}>
+              Try again
+            </button>
+          </div>
+        ) : filtered.length ? (
+          <>
+            <p className="catalogue-count" role="status">
+              {filtered.length}{" "}
+              {filtered.length === 1 ? "programme" : "programmes"}
+            </p>
+            <div className="resource-grid">
+              {filtered.map((training) => {
+                const nextDate = (training.slots || [])
+                  .map((slot) => slot.startDate)
+                  .filter((date) => Number.isFinite(Date.parse(date)))
+                  .sort((a, b) => Date.parse(a) - Date.parse(b))[0];
+                const seats = (training.slots || []).reduce(
+                  (sum, slot) => sum + (slot.availableSeats || 0),
+                  0,
+                );
                 return (
-                  <Card
-                    key={training.id}
-                    className="h-full flex flex-col hover:shadow-lg transition-shadow"
-                  >
-                    {training.imageUrl ? (
-                      <div className="w-full h-48 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-t-lg flex items-center justify-center">
-                        <div className="text-primary text-center">
-                          <img
-                            src={training.imageUrl}
-                            alt={training.title}
-                            className="w-full object-cover rounded-t-lg"
-                            loading="lazy"
-                            decoding="async"
-                          />
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="w-full h-48 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-t-lg flex items-center justify-center">
-                        <div className="text-primary text-center">
-                          <img
-                            src={"/learning.jpg"}
-                            alt={"MTMKay Training"}
-                            className="w-full object-cover rounded-t-lg"
-                            loading="lazy"
-                            decoding="async"
-                          />
-                        </div>
-                      </div>
-                    )}
-
-                    <div className="p-6 mt-16 flex flex-col flex-grow">
-                      <h3 className="text-xl font-bold mb-2">
-                        {training.title}
-                      </h3>
-
-                      <p className="text-gray-600 mb-4 flex-grow">
-                        {training.summary || "No description available."}
+                  <article className="resource-card" key={training.id}>
+                    <Link
+                      to={`/trainings/${training.slug}`}
+                      tabIndex={-1}
+                      aria-hidden="true"
+                    >
+                      <img
+                        className="resource-cover"
+                        src={training.imageUrl || "/learning.jpg"}
+                        alt=""
+                        loading="lazy"
+                        onError={(event) => {
+                          if (
+                            !event.currentTarget.src.endsWith("/learning.jpg")
+                          )
+                            event.currentTarget.src = "/learning.jpg";
+                        }}
+                      />
+                    </Link>
+                    <div className="resource-card-body">
+                      <p className="eyebrow">
+                        {training.category || "PRACTICAL LEARNING"}
                       </p>
-
-                      {/* Training Details */}
-                      <div className="space-y-2 mb-4 text-sm text-gray-600">
-                        {nextStartDate && (
-                          <div className="flex items-center">
-                            <Calendar size={16} className="mr-2" />
-                            <span>Starts: {formatDate(nextStartDate)}</span>
-                          </div>
+                      <h3>
+                        <Link to={`/trainings/${training.slug}`}>
+                          {training.title}
+                        </Link>
+                      </h3>
+                      <p>
+                        {training.summary ||
+                          "Explore the programme for course content and session details."}
+                      </p>
+                      <div className="resource-meta">
+                        {nextDate && (
+                          <span>
+                            Starts{" "}
+                            {new Date(nextDate).toLocaleDateString("en-GB", {
+                              day: "numeric",
+                              month: "short",
+                              year: "numeric",
+                            })}
+                          </span>
                         )}
-
-                        {totalSeats > 0 && (
-                          <div className="flex items-center">
-                            <Users size={16} className="mr-2" />
-                            <span>{totalSeats} seats available</span>
-                          </div>
-                        )}
-
-                        <div className="flex items-center">
-                          <Clock size={16} className="mr-2" />
-                          <span>{training.slots?.length || 0} session(s)</span>
-                        </div>
+                        <span>{training.slots?.length || 0} sessions</span>
+                        {seats > 0 && <span>{seats} seats available</span>}
                       </div>
-
-                      <div className="flex justify-between items-center mt-4">
-                        <div className="text-lg font-bold text-primary">
-                          {training.price?.toLocaleString()} XAF
-                        </div>
-
+                      <div className="resource-card-bottom">
+                        <strong>
+                          {training.price != null
+                            ? `${Number(training.price).toLocaleString()} XAF`
+                            : "Enquire for pricing"}
+                        </strong>
                         <Link
+                          className="text-link"
                           to={`/trainings/${training.slug}`}
-                          className="inline-flex items-center font-semibold text-primary hover:underline"
                         >
-                          View Details <ArrowRight size={16} className="ml-1" />
+                          View programme
                         </Link>
                       </div>
                     </div>
-                  </Card>
+                  </article>
                 );
               })}
             </div>
-          ) : (
-            <div className="text-center py-16">
-              <h2 className="text-2xl font-bold text-gray-800">
-                No Trainings Found
-              </h2>
-              <p className="text-gray-600 mt-2">
-                {trainings && trainings.length > 0
-                  ? "Try adjusting your search or filter criteria."
-                  : "No trainings available yet. Check back soon!"}
-              </p>
-            </div>
-          )}
+          </>
+        ) : (
+          <div className="resource-state">
+            <h3>
+              {trainings.length
+                ? "No matching programmes."
+                : "New opportunities to learn are on the way."}
+            </h3>
+            <p>
+              {trainings.length
+                ? "Try another search or choose a different category."
+                : "Check back for upcoming training, or tell us what you’d like to learn."}
+            </p>
+            {trainings.length ? (
+              <button
+                className="text-link"
+                onClick={() => {
+                  setSearch("");
+                  setCategory("All");
+                }}
+              >
+                Clear filters
+              </button>
+            ) : (
+              <Link
+                className="text-link"
+                to="/contact?service=Training%20enquiry"
+              >
+                Ask about training
+              </Link>
+            )}
+          </div>
+        )}
+      </section>
+      <section className="resource-band">
+        <div className="site-container community-section">
+          <div>
+            <p className="eyebrow">SPACE TO FOCUS</p>
+            <h2>A place to put your learning to work.</h2>
+          </div>
+          <div>
+            <p>
+              Explore the Work Café for a workspace with internet, power, and
+              room to focus.
+            </p>
+            <Link className="text-link" to="/work-cafe">
+              Discover the Work Café
+            </Link>
+          </div>
         </div>
       </section>
-    </>
+      <CTA />
+    </div>
   );
-};
-
-export default Trainings;
+}
