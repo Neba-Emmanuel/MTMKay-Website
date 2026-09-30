@@ -70,6 +70,7 @@ const App: React.FC = () => {
               <Route path="work-cafe" element={<WorkCafe />} />
               <Route path="capabilities-statement" element={<Capabilities />} />
               <Route path="getting-started" element={<Leads />} />
+              <Route path="*" element={<NotFound />} />
             </Route>
 
             <Route path="/admin/login" element={<AdminLogin />} />
@@ -87,7 +88,6 @@ const App: React.FC = () => {
             </Route>
 
             <Route path="payment-success" element={<PaymentSuccess />} />
-            <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
       </BrowserRouter>
