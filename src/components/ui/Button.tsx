@@ -21,7 +21,7 @@ const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const baseStyles = 'inline-flex items-center justify-center font-semibold rounded-md transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2';
-  
+
   const variantStyles = {
     primary: 'bg-primary text-white hover:bg-primary-dark focus:ring-primary',
     secondary: 'bg-secondary text-white hover:bg-yellow-600 focus:ring-secondary',

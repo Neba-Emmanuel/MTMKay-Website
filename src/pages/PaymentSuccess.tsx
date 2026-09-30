@@ -46,6 +46,7 @@ interface PaymentVerificationResponse {
     email: string;
     phone: string;
     trainingId: number;
+    trainingTitle?: string;
     training: {
       title: string;
       startDate: string;
@@ -329,7 +330,7 @@ const PaymentSuccess: React.FC = () => {
     const receipt = `
       MTMKay Payment Receipt
       ======================
-      
+
       Transaction Details:
       --------------------
       Receipt No: ${transaction?.id || paymentData.transId || paymentReference}
@@ -338,7 +339,7 @@ const PaymentSuccess: React.FC = () => {
       Status: ${paymentData.status}
       Amount: ${formatAmount(amount, currency)}
       Payment Method: ${transaction?.medium || paymentData.medium}
-      
+
       ${
         paymentData.registration
           ? `
@@ -353,9 +354,9 @@ const PaymentSuccess: React.FC = () => {
       `
           : ""
       }
-      
+
       Thank you for your payment!
-      
+
       Generated: ${new Date().toLocaleString()}
       Verification: https://mtmkay.com/payment/verify/${paymentReference}
     `;
